@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-class CubePresenters {
+export default class CubePresenters {
 
     constructor(_scene) {
         const presenterGroup = new THREE.Group()
@@ -56,5 +56,3 @@ class CubePresenters {
     }
 
 }
-
-export default CubePresenters
