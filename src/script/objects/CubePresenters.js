@@ -1,5 +1,8 @@
 import * as THREE from 'three'
 import presenterColorSource from '../../resources/minecraft_textures/block/oak_log.png'
+import cactusBottomSource from '../../resources/minecraft_textures/block/cactus_bottom.png'
+import cactusSideSource from '../../resources/minecraft_textures/block/cactus_side.png'
+import cactusTopSource from '../../resources/minecraft_textures/block/cactus_top.png'
 
 export default class CubePresenters {
 
@@ -29,8 +32,7 @@ export default class CubePresenters {
             )   
         ]
         this.minecraftCubes[0].rotation.x = Math.PI * 0.25
-        this.minecraftCubes[0].rotation.z = Math.PI * 0.25
-        this.minecraftCubes[0].position.y = 2
+        this.minecraftCubes[0].position.y = 2.5
 
         for (let i = 0; i < 30; i++) {
 
@@ -38,46 +40,30 @@ export default class CubePresenters {
              * Right column
              */
             this.minecraftCubes.push(this.minecraftCubes[0].clone())
+            this.minecraftCubes[i*2].material = this.generateCubeMaterial(i*2, _textureLoader)
+            this.minecraftCubes[0].rotation.z = Math.PI * 0.25
+
             const rightPresenter = presenterGroup.clone()
-            const rightCubeSideMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff})
-            const rightCubeTopMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00})
-            const rightCubeBottomMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000})
-            const rightCubeMaterials = [
-                rightCubeSideMaterial,
-                rightCubeSideMaterial,
-                rightCubeTopMaterial,
-                rightCubeBottomMaterial,
-                rightCubeSideMaterial,
-                rightCubeSideMaterial,
-            ]
-            this.minecraftCubes[i*2].material = rightCubeMaterials
             rightPresenter.add(this.minecraftCubes[i*2])
 
-            rightPresenter.position.x = 3
+            rightPresenter.position.x = 4
             rightPresenter.position.z = -i * 10
+
             _scene.add(rightPresenter)
 
             /**
              * Left column
              */
             this.minecraftCubes.push(this.minecraftCubes[0].clone())
-            const leftPresenter = presenterGroup.clone()
-            const leftCubeSideMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffff})
-            const leftCubeTopMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00})
-            const leftCubeBottomMaterial = new THREE.MeshBasicMaterial({ color: 0xff00ff})
-            const leftCubeMaterials = [
-                leftCubeSideMaterial,
-                leftCubeSideMaterial,
-                leftCubeTopMaterial,
-                leftCubeBottomMaterial,
-                leftCubeSideMaterial,
-                leftCubeSideMaterial,
-            ]
-            this.minecraftCubes[i*2 + 1].material = leftCubeMaterials
+            this.minecraftCubes[i*2 + 1].material = this.generateCubeMaterial(i*2 + 1, _textureLoader)
             this.minecraftCubes[i*2 + 1].rotation.z = Math.PI * -0.25
+
+            const leftPresenter = presenterGroup.clone()
             leftPresenter.add(this.minecraftCubes[i*2 + 1])
-            leftPresenter.position.x = -3
+
+            leftPresenter.position.x = -4
             leftPresenter.position.z = -i * 10
+
             _scene.add(leftPresenter)
         }
         this.minecraftCubes.pop()
@@ -86,8 +72,30 @@ export default class CubePresenters {
     update() {
         const now = Date.now() * 0.0015
         this.minecraftCubes.forEach(cube => {
-            cube.position.y = 2 + Math.sin(now + cube.parent.position.z) * 0.05
+            cube.position.y = 2.5 + Math.sin(now + cube.parent.position.z) * 0.1
         })
+    }
+
+    generateCubeMaterial(_i, _textureLoader) {
+        const sideTexture = _textureLoader.load(cactusSideSource)
+        sideTexture.magFilter = THREE.NearestFilter
+        sideTexture.minFilter = THREE.NearestFilter
+        const topTexture = _textureLoader.load(cactusTopSource)
+        topTexture.magFilter = THREE.NearestFilter
+        topTexture.minFilter = THREE.NearestFilter
+        const bottomTexture = _textureLoader.load(cactusBottomSource)
+        bottomTexture.magFilter = THREE.NearestFilter
+        bottomTexture.minFilter = THREE.NearestFilter
+        const sideMaterial = new THREE.MeshStandardMaterial({ map: sideTexture })
+        const cubeMaterials = [
+            sideMaterial,
+            sideMaterial,
+            new THREE.MeshStandardMaterial({ map: topTexture }),
+            new THREE.MeshStandardMaterial({ map: bottomTexture }),
+            sideMaterial,
+            sideMaterial,
+        ]
+        return cubeMaterials
     }
 
 }
