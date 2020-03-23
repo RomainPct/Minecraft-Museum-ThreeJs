@@ -39,7 +39,7 @@ scene.add(camera)
  * Floor
  */
 const floor = new THREE.Mesh(
-    new THREE.PlaneBufferGeometry(120,50),
+    new THREE.PlaneBufferGeometry(120,60),
     new THREE.MeshNormalMaterial()
 )
 floor.rotation.x = Math.PI * -0.5
@@ -139,9 +139,10 @@ const animate = () => {
     cubePresenters.update()
 
     camera.position.z += cursor.deltaY / 500
+    camera.position.z = Math.min(camera.position.z, 10)
     cursor.deltaY = 0
-    camera.rotation.y = Math.PI * -cursor.x * 0.5
-    camera.rotation.x = Math.PI * -cursor.y * 0.5
+    camera.rotation.y = Math.PI * -cursor.x * 0.6
+    camera.rotation.x = Math.PI * -cursor.y * 0.2
     // cameraControls.update()
     renderer.render(scene,camera)
 }
