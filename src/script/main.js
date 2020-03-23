@@ -3,8 +3,6 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import CubePresenters from './objects/CubePresenters.js'
 
-console.log(CubePresenters)
-
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 // import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
@@ -51,49 +49,7 @@ scene.add(floor)
 /**
  * Cube presenter
  */
-const presenterGroup = new THREE.Group()
-presenterGroup.position.y = 0.6
-
-const presenter = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(0.5,1.2,0.5),
-    new THREE.MeshNormalMaterial()
-)
-presenterGroup.add(presenter)
-
-let minecraftCubes = [
-    new THREE.Mesh(
-        new THREE.BoxBufferGeometry(0.7,0.7,0.7),
-        new THREE.MeshNormalMaterial()
-    )   
-]
-minecraftCubes[0].rotation.x = Math.PI * 0.25
-minecraftCubes[0].rotation.y = Math.PI * 0.25
-minecraftCubes[0].position.y = 1.5
-
-for (let i = 0; i < 30; i++) {
-
-    /**
-     * Right column
-     */
-    minecraftCubes.push(minecraftCubes[0].clone())
-
-    const rightPresenter = presenterGroup.clone()
-    rightPresenter.add(minecraftCubes[i*2])
-    rightPresenter.position.x = 3
-    rightPresenter.position.z = -i * 10
-    scene.add(rightPresenter)
-
-    /**
-     * Left column
-     */
-    minecraftCubes.push(minecraftCubes[0].clone())
-    const leftPresenter = presenterGroup.clone()
-    leftPresenter.add(minecraftCubes[i*2 + 1])
-    leftPresenter.position.x = -3
-    leftPresenter.position.z = -i * 10
-    scene.add(leftPresenter)
-}
-minecraftCubes.pop()
+const cubePresenters = new CubePresenters(scene)
 
 /** 
  * Model import
@@ -180,10 +136,7 @@ window.addEventListener('wheel', (e) => {
 const animate = () => {
     requestAnimationFrame(animate)
 
-    const now = Date.now() * 0.0015
-    minecraftCubes.forEach(cube => {
-        cube.position.y = 1.5 + Math.sin(now + cube.parent.position.z) * 0.05
-    })
+    cubePresenters.update()
 
     camera.position.z += cursor.deltaY / 500
     cursor.deltaY = 0
