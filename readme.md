@@ -1,16 +1,11 @@
-# Webpack Template Romain Penchenat
+# Minecraft Museum - Hetic project
 
-## Features
+## Members
 
-- Supported files : HTML - CSS - Sylus - JS - Images - Fonts
-- Extracted CSS
-- TranspilLed JS with babel
-- Sourcemaps
-- Clean dist
-- Dev server with local network support auto opened in Firefox
-- Static files
-- Cache breaker
-- Stylus preprocessing
+- Borie Clément
+- Soyer Arnaud
+- Vidal Matthieu
+- Penchenat Romain
 
 ## Instructions
 
