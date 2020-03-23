@@ -5,6 +5,8 @@ import LightManager from './objects/LightManager.js'
 import Floor from './objects/Floor.js'
 import Camera from './objects/Camera.js'
 
+const textureLoader = new THREE.TextureLoader()
+
 /**
  * Sizes
  */
@@ -20,8 +22,8 @@ const sizes = {
 const scene = new THREE.Scene()
 const camera = new Camera(scene, sizes)
 
-const floor = new Floor(scene)
-const cubePresenters = new CubePresenters(scene)
+const floor = new Floor(scene, textureLoader)
+const cubePresenters = new CubePresenters(scene, textureLoader)
 const lightManager = new LightManager(scene)
 
 /** 
@@ -30,7 +32,6 @@ const lightManager = new LightManager(scene)
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sizes.width,sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2)) // Pour le limiter à 2 (perf)
-
 document.querySelector('#app').appendChild(renderer.domElement)
 renderer.render(scene,camera.elem)
 
