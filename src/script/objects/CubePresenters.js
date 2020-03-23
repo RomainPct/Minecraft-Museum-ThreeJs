@@ -72,7 +72,7 @@ export default class CubePresenters {
     update() {
         const now = Date.now() * 0.0015
         this.minecraftCubes.forEach(cube => {
-            cube.position.y = 2.5 + Math.sin(now + cube.parent.position.z) * 0.1
+            cube.position.y = 2.5 + Math.sin(now + cube.parent.position.z) * 0.2
         })
     }
 

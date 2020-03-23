@@ -4,6 +4,7 @@ import CubePresenters from './objects/CubePresenters.js'
 import LightManager from './objects/LightManager.js'
 import Floor from './objects/Floor.js'
 import Camera from './objects/Camera.js'
+import CloudGenerator from './objects/CloudGenerator'
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -20,8 +21,11 @@ const sizes = {
  * Scene
 */
 const scene = new THREE.Scene()
+scene.background = new THREE.Color( 0x0E050F )
+scene.fog = new THREE.FogExp2(0x0E0E0E, 0.05)
 const camera = new Camera(scene, sizes)
 
+const clouds = new CloudGenerator(scene)
 const floor = new Floor(scene, textureLoader)
 const cubePresenters = new CubePresenters(scene, textureLoader)
 const lightManager = new LightManager(scene)
