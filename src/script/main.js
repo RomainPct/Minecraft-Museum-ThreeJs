@@ -29,20 +29,52 @@ const scene = new THREE.Scene()
 /**
  * Camera
  */
-const camera = new THREE.PerspectiveCamera(75, sizes.ratio(), 0.1, 20)
+const camera = new THREE.PerspectiveCamera(75, sizes.ratio(), 0.1, 40)
 camera.position.z = 5
 camera.position.y = 1
 scene.add(camera)
 
 /**
- * Base
+ * Floor
  */
 const floor = new THREE.Mesh(
-    new THREE.PlaneBufferGeometry(5,5),
+    new THREE.PlaneBufferGeometry(50,50),
     new THREE.MeshNormalMaterial()
 )
 floor.rotation.x = Math.PI * -0.5
+floor.position.z = -20
 scene.add(floor)
+
+/**
+ * Cube presenter
+ */
+const presenterGroup = new THREE.Group()
+presenterGroup.position.y = 0.6
+
+const presenter = new THREE.Mesh(
+    new THREE.BoxBufferGeometry(0.5,1.2,0.5),
+    new THREE.MeshNormalMaterial()
+)
+presenterGroup.add(presenter)
+const minecraftCube = new THREE.Mesh(
+    new THREE.BoxBufferGeometry(0.7,0.7,0.7),
+    new THREE.MeshNormalMaterial()
+)
+minecraftCube.rotation.x = Math.PI * 0.25
+minecraftCube.rotation.y = Math.PI * 0.25
+minecraftCube.position.y = 1.5
+presenterGroup.add(minecraftCube)
+
+for (let i = 0; i < 30; i++) {
+    const rightPresenter = presenterGroup.clone()
+    rightPresenter.position.x = 3
+    rightPresenter.position.z = -i * 10
+    scene.add(rightPresenter)
+    const leftPresenter = presenterGroup.clone()
+    leftPresenter.position.x = -3
+    leftPresenter.position.z = -i * 10
+    scene.add(leftPresenter)
+}
 
 /** 
  * Model import
@@ -124,8 +156,8 @@ window.addEventListener('mousemove', (e) => {
 const animate = () => {
     requestAnimationFrame(animate)
 
-    camera.position.x = cursor.x
-    camera.position.y = 1 + cursor.y
+    // camera.position.x = cursor.x
+    // camera.position.y = 1 + cursor.y
     cameraControls.update()
     renderer.render(scene,camera)
 }
