@@ -1,6 +1,9 @@
 import '../style/main.styl'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import CubePresenters from './objects/CubePresenters.js'
+
+console.log(CubePresenters)
 
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 // import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
@@ -31,14 +34,14 @@ const scene = new THREE.Scene()
  */
 const camera = new THREE.PerspectiveCamera(75, sizes.ratio(), 0.1, 40)
 camera.position.z = 5
-camera.position.y = 1
+camera.position.y = 1.8
 scene.add(camera)
 
 /**
  * Floor
  */
 const floor = new THREE.Mesh(
-    new THREE.PlaneBufferGeometry(50,50),
+    new THREE.PlaneBufferGeometry(120,50),
     new THREE.MeshNormalMaterial()
 )
 floor.rotation.x = Math.PI * -0.5
@@ -56,25 +59,41 @@ const presenter = new THREE.Mesh(
     new THREE.MeshNormalMaterial()
 )
 presenterGroup.add(presenter)
-const minecraftCube = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(0.7,0.7,0.7),
-    new THREE.MeshNormalMaterial()
-)
-minecraftCube.rotation.x = Math.PI * 0.25
-minecraftCube.rotation.y = Math.PI * 0.25
-minecraftCube.position.y = 1.5
-presenterGroup.add(minecraftCube)
+
+let minecraftCubes = [
+    new THREE.Mesh(
+        new THREE.BoxBufferGeometry(0.7,0.7,0.7),
+        new THREE.MeshNormalMaterial()
+    )   
+]
+minecraftCubes[0].rotation.x = Math.PI * 0.25
+minecraftCubes[0].rotation.y = Math.PI * 0.25
+minecraftCubes[0].position.y = 1.5
 
 for (let i = 0; i < 30; i++) {
+
+    /**
+     * Right column
+     */
+    minecraftCubes.push(minecraftCubes[0].clone())
+
     const rightPresenter = presenterGroup.clone()
+    rightPresenter.add(minecraftCubes[i*2])
     rightPresenter.position.x = 3
     rightPresenter.position.z = -i * 10
     scene.add(rightPresenter)
+
+    /**
+     * Left column
+     */
+    minecraftCubes.push(minecraftCubes[0].clone())
     const leftPresenter = presenterGroup.clone()
+    leftPresenter.add(minecraftCubes[i*2 + 1])
     leftPresenter.position.x = -3
     leftPresenter.position.z = -i * 10
     scene.add(leftPresenter)
 }
+minecraftCubes.pop()
 
 /** 
  * Model import
@@ -121,10 +140,10 @@ renderer.render(scene,camera)
 /** 
  * Camera controls
 */
-const cameraControls = new OrbitControls(camera, renderer.domElement)
-cameraControls.zoomSpeed = 0.3
-cameraControls.enableDamping = true
-cameraControls.dampingFactor = 0.1
+// const cameraControls = new OrbitControls(camera, renderer.domElement)
+// cameraControls.zoomSpeed = 0.3
+// cameraControls.enableDamping = true
+// cameraControls.dampingFactor = 0.1
 
 /** 
  * Resize
@@ -143,11 +162,16 @@ window.addEventListener('resize', () => {
 */
 const cursor = {
     x: 0,
-    y: 0
+    y: 0,
+    deltaY: 0
 }
 window.addEventListener('mousemove', (e) => {
     cursor.x = (e.clientX / sizes.width) - 0.5
     cursor.y = (e.clientY / sizes.height) - 0.5
+})
+
+window.addEventListener('wheel', (e) => {
+    cursor.deltaY += e.deltaY
 })
 
 /** 
@@ -156,9 +180,16 @@ window.addEventListener('mousemove', (e) => {
 const animate = () => {
     requestAnimationFrame(animate)
 
-    // camera.position.x = cursor.x
-    // camera.position.y = 1 + cursor.y
-    cameraControls.update()
+    const now = Date.now() * 0.0015
+    minecraftCubes.forEach(cube => {
+        cube.position.y = 1.5 + Math.sin(now + cube.parent.position.z) * 0.05
+    })
+
+    camera.position.z += cursor.deltaY / 500
+    cursor.deltaY = 0
+    camera.rotation.y = Math.PI * -cursor.x * 0.5
+    camera.rotation.x = Math.PI * -cursor.y * 0.5
+    // cameraControls.update()
     renderer.render(scene,camera)
 }
 
