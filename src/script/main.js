@@ -7,6 +7,11 @@ import Camera from './objects/Camera.js'
 import CloudGenerator from './objects/CloudGenerator'
 
 const textureLoader = new THREE.TextureLoader()
+const detailPopup = document.querySelector('#js-blockDetailPopup')
+
+detailPopup.addEventListener('click', () => {
+    detailPopup.classList.remove('open')
+})
 
 /**
  * Sizes
@@ -28,7 +33,7 @@ scene.fog = new THREE.FogExp2(0x0E0E0E, 0.05)
 const camera = new Camera(scene, sizes)
 
 const floor = new Floor(scene, textureLoader, cubesNumber)
-const cubePresenters = new CubePresenters(scene, textureLoader, cubesNumber)
+const cubePresenters = new CubePresenters(scene, textureLoader, cubesNumber, detailPopup)
 const clouds = new CloudGenerator(scene, cubesNumber)
 const lightManager = new LightManager(scene)
 
@@ -72,28 +77,28 @@ window.addEventListener('wheel', e => userData.deltaY += e.deltaY )
 window.addEventListener('keydown', (e) => {
     switch (e.code) {
         case 'KeyS':
-            userData.keyMoveY = 0.1
+            userData.keyMoveY = 0.2
             break;
         case 'KeyW':
-            userData.keyMoveY = -0.1
+            userData.keyMoveY = -0.2
             break;
         case 'KeyA':
-            userData.keyMoveX = -0.1
+            userData.keyMoveX = -0.2
             break;
         case 'KeyD':
-            userData.keyMoveX = 0.1
+            userData.keyMoveX = 0.2
             break;
         case 'ArrowDown':
-            userData.keyMoveY = 0.1
+            userData.keyMoveY = 0.2
             break;
         case 'ArrowUp':
-            userData.keyMoveY = -0.1
+            userData.keyMoveY = -0.2
             break;
         case 'ArrowLeft':
-            userData.keyMoveX = -0.1
+            userData.keyMoveX = -0.2
             break;
         case 'ArrowRight':
-            userData.keyMoveX = 0.1
+            userData.keyMoveX = 0.2
             break;
         default:
             break;
