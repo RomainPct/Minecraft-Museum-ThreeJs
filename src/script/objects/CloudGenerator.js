@@ -52,7 +52,7 @@ export default class CloudGenerator {
             this.cloudGeometries.push(new THREE.ExtrudeBufferGeometry(
                 cloudShape,
                 {
-                    amount: 0.5,
+                    depth: 0.5,
                     bevelEnabled: false
                 }
             ))

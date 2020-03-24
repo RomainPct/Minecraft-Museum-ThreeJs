@@ -6,7 +6,7 @@ export default class LightManager {
         /**
          * Ambient
          */
-        this.ambientLight = new THREE.AmbientLight(0xffffaa, 0.4)
+        this.ambientLight = new THREE.AmbientLight(0xffffaa, 0.6)
         _scene.add(this.ambientLight)
 
         /**

@@ -33,7 +33,7 @@ export default class Floor {
         texture.wrapS = THREE.RepeatWrapping
         texture.wrapT = THREE.RepeatWrapping
         texture.magFilter = THREE.NearestFilter
-        texture.minFilter = THREE.NearestFilte
+        texture.minFilter = THREE.NearestFilter
         return new THREE.MeshStandardMaterial({ map: texture })
     }
 
