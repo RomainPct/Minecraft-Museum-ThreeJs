@@ -20,14 +20,16 @@ const sizes = {
 /** 
  * Scene
 */
+const cubesNumber = 20
+
 const scene = new THREE.Scene()
 scene.background = new THREE.Color( 0x0E050F )
 scene.fog = new THREE.FogExp2(0x0E0E0E, 0.05)
 const camera = new Camera(scene, sizes)
 
-const clouds = new CloudGenerator(scene)
-const floor = new Floor(scene, textureLoader)
-const cubePresenters = new CubePresenters(scene, textureLoader)
+const floor = new Floor(scene, textureLoader, cubesNumber)
+const cubePresenters = new CubePresenters(scene, textureLoader, cubesNumber)
+const clouds = new CloudGenerator(scene, cubesNumber)
 const lightManager = new LightManager(scene)
 
 /** 

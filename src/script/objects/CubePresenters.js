@@ -6,7 +6,7 @@ import cactusTopSource from '../../resources/minecraft_textures/block/cactus_top
 
 export default class CubePresenters {
 
-    constructor(_scene, _textureLoader) {
+    constructor(_scene, _textureLoader, _cubesNumber) {
         const presenterGroup = new THREE.Group()
         presenterGroup.position.y = 1
 
@@ -34,7 +34,7 @@ export default class CubePresenters {
         this.minecraftCubes[0].rotation.x = Math.PI * 0.25
         this.minecraftCubes[0].position.y = 2.5
 
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < Math.ceil(_cubesNumber / 2); i++) {
 
             /**
              * Right column

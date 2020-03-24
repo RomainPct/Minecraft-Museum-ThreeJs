@@ -2,7 +2,8 @@ import * as THREE from 'three'
 
 export default class CloudGenerator {
 
-    constructor(_scene) {
+    constructor(_scene, _cubesNumber) {
+        this.cloudiness = (Math.random() * 2.5)
         this.cloudShapes = [
             [[0, 0], [0, 3], [1, 3], [1, 4], [3, 4], [3, 3], [4, 3], [4, 1], [1, 1], [1, 0]],
             [[0, 0], [0, 1], [1, 1], [1, 2], [2, 2], [2, 1], [3, 1], [3, 0]],
@@ -16,21 +17,29 @@ export default class CloudGenerator {
         this.cloudGeometries = []
         this.generateCloudGeometries()
         this.cloudMaterial = new THREE.MeshStandardMaterial({
-            color: new THREE.Color(0x333333)
+            color: new THREE.Color(0x999999)
         })
-
-        for (let i = 0; i < 100; i++) {
+        this.cloudLevel1 = new THREE.Group()
+        this.cloudLevel1.position.y = 20
+        this.cloudLevel2 = new THREE.Group()
+        this.cloudLevel2.position.y = 25
+        for (let i = 0; i < _cubesNumber * 3 * this.cloudiness; i++) {
             const cloud = new THREE.Mesh(
                 this.cloudGeometries[Math.floor(Math.random() * this.cloudGeometries.length)],
                 this.cloudMaterial
             )
             cloud.position.x = (Math.random() - 0.5) * 60
-            cloud.position.z = i * -2
+            cloud.position.z = i * -(3 - this.cloudiness)
             cloud.rotation.z = Math.PI * Math.floor(Math.random() * 4) / 2
-            cloud.position.y = 20 + Math.floor(Math.random() * 2) * 10
             cloud.rotation.x = Math.PI * 0.5
-            _scene.add(cloud)
+            if (Math.random() < 0.5 ) {
+                this.cloudLevel1.add(cloud)
+            } else {
+                this.cloudLevel2.add(cloud)
+            }
         }
+        _scene.add(this.cloudLevel1)
+        _scene.add(this.cloudLevel2)
     }
 
     generateCloudGeometries() {
