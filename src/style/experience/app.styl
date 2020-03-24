@@ -1,0 +1,11 @@
+#app
+    position relative
+    cursor none
+    .minecraftPointer
+        position absolute
+        width 16px
+        height @width
+        left "calc(50% - %s / 2)" % @width
+        top "calc(50% - %s / 2)" % @width
+        background url('../resources/icons/cursor.svg') no-repeat center
+        background-size 100%
