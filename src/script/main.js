@@ -5,6 +5,7 @@ import LightManager from './objects/LightManager.js'
 import Floor from './objects/Floor.js'
 import Camera from './objects/Camera.js'
 import CloudGenerator from './objects/CloudGenerator'
+import Islands from './objects/Islands'
 
 const textureLoader = new THREE.TextureLoader()
 const detailPopup = document.querySelector('#js-blockDetailPopup')
@@ -35,6 +36,7 @@ const camera = new Camera(scene, sizes)
 const floor = new Floor(scene, textureLoader, cubesNumber)
 const cubePresenters = new CubePresenters(scene, textureLoader, cubesNumber, detailPopup)
 const clouds = new CloudGenerator(scene, cubesNumber)
+const islands = new Islands(scene, textureLoader)
 const lightManager = new LightManager(scene)
 
 /** 

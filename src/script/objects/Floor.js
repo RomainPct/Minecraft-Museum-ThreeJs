@@ -7,12 +7,20 @@ export default class Floor {
         const depth = (_cubesNumber * 5) + 20
 
         this.floor = new THREE.Mesh(
-            new THREE.PlaneBufferGeometry(120, depth),
+            new THREE.PlaneBufferGeometry(8, depth),
             this.getFloorMaterial(depth, _textureLoader)
         )
         this.floor.rotation.x = Math.PI * -0.5
         this.floor.position.z = (depth * -0.5) + 20
         _scene.add(this.floor)
+
+        this.lowFloor = new THREE.Mesh(
+            new THREE.PlaneBufferGeometry(120, depth),
+            new THREE.MeshStandardMaterial({ color: new THREE.Color( 0xffffff ) })
+        )
+        this.lowFloor.rotation.x = Math.PI * -0.5
+        this.lowFloor.position.y = -10
+        _scene.add(this.lowFloor)
 
         const leftSide = new THREE.Mesh(
             new THREE.BoxBufferGeometry(0.99, 0.5, depth),
@@ -28,7 +36,7 @@ export default class Floor {
 
     getFloorMaterial(_depth, _textureLoader) {
         const texture = _textureLoader.load(floorColorSource)
-        texture.repeat.x = 120
+        texture.repeat.x = 8
         texture.repeat.y = _depth
         texture.wrapS = THREE.RepeatWrapping
         texture.wrapT = THREE.RepeatWrapping
