@@ -9,11 +9,11 @@ export default class Camera {
         _scene.add(this.elem)
     }
 
-    update(_cursor) {
-        this.elem.position.z += _cursor.deltaY / 500
-        this.elem.position.z = Math.min(this.elem.position.z, 10)
-        this.elem.rotation.y = Math.PI * -_cursor.x * 0.6
-        this.elem.rotation.x = Math.PI * -_cursor.y * 0.2
+    update(_userData) {
+        this.elem.position.x = Math.min(Math.max(this.elem.position.x + _userData.keyMoveX, -3), 3)
+        this.elem.position.z = Math.min(this.elem.position.z + (_userData.deltaY / 500) + _userData.keyMoveY, 10)
+        this.elem.rotation.y = Math.PI * -_userData.cursorX * 0.6
+        this.elem.rotation.x = Math.PI * -_userData.cursorY * 0.2
     }
 
     resize(_sizes) {

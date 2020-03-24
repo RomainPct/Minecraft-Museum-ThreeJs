@@ -55,18 +55,56 @@ window.addEventListener('resize', () => {
 /** 
  * Cursor
 */
-const cursor = {
-    x: 0,
-    y: 0,
-    deltaY: 0
+const userData = {
+    cursorX: 0,
+    cursorY: 0,
+    deltaY: 0,
+    keyMoveX: 0,
+    keyMoveY: 0
 }
 window.addEventListener('mousemove', (e) => {
-    cursor.x = (e.clientX / sizes.width) - 0.5
-    cursor.y = (e.clientY / sizes.height) - 0.5
+    userData.cursorX = (e.clientX / sizes.width) - 0.5
+    userData.cursorY = (e.clientY / sizes.height) - 0.5
 })
 
-window.addEventListener('wheel', (e) => {
-    cursor.deltaY += e.deltaY
+window.addEventListener('wheel', e => userData.deltaY += e.deltaY )
+
+window.addEventListener('keydown', (e) => {
+    switch (e.code) {
+        case 'KeyS':
+            userData.keyMoveY = 0.1
+            break;
+        case 'KeyW':
+            userData.keyMoveY = -0.1
+            break;
+        case 'KeyA':
+            userData.keyMoveX = -0.1
+            break;
+        case 'KeyD':
+            userData.keyMoveX = 0.1
+            break;
+        case 'ArrowDown':
+            userData.keyMoveY = 0.1
+            break;
+        case 'ArrowUp':
+            userData.keyMoveY = -0.1
+            break;
+        case 'ArrowLeft':
+            userData.keyMoveX = -0.1
+            break;
+        case 'ArrowRight':
+            userData.keyMoveX = 0.1
+            break;
+        default:
+            break;
+    }
+})
+window.addEventListener('keyup', (e) => {
+    if (e.code == 'ArrowDown' || e.code == 'ArrowUp' || e.code == 'KeyW' || e.code == 'KeyS') {
+        userData.keyMoveY = 0
+    } else if (e.code == 'ArrowLeft' || e.code == 'ArrowRight' || e.code == 'KeyA' || e.code == 'KeyD') {
+        userData.keyMoveX = 0
+    }
 })
 
 /** 
@@ -77,8 +115,8 @@ const animate = () => {
 
     cubePresenters.update()
 
-    camera.update(cursor)
-    cursor.deltaY = 0
+    camera.update(userData)
+    userData.deltaY = 0
     renderer.render(scene,camera.elem)
 }
 
