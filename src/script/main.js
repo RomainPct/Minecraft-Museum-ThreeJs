@@ -107,6 +107,8 @@ window.addEventListener('keyup', (e) => {
     }
 })
 
+window.addEventListener('click', () => cubePresenters.click(camera.elem))
+
 /** 
  * Animation
 */
@@ -131,9 +133,9 @@ animate()
 // const gltfLoader = new GLTFLoader()
 // gltfLoader.setDRACOLoader(dracoLoader)
 
-/** 
- * Model import
-*/
+// /** 
+//  * Model import
+// */
 // gltfLoader.load(
 //     '/static/duck/glTF-Draco/Duck.gltf',
 //     (gltf) => {

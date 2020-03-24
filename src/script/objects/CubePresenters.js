@@ -7,78 +7,19 @@ import cactusTopSource from '../../resources/minecraft_textures/block/cactus_top
 export default class CubePresenters {
 
     constructor(_scene, _textureLoader, _cubesNumber) {
-        const presenterGroup = new THREE.Group()
-        presenterGroup.position.y = 1
+        this.raycaster = new THREE.Raycaster()
+        this.raycasterCenter = new THREE.Vector2(0, 0)
 
-        const presenterTexture = _textureLoader.load(presenterColorSource)
-        presenterTexture.repeat.x = 1
-        presenterTexture.repeat.y = 2
-        presenterTexture.wrapS = THREE.RepeatWrapping
-        presenterTexture.wrapT = THREE.RepeatWrapping
-        presenterTexture.magFilter = THREE.NearestFilter
-        presenterTexture.minFilter = THREE.NearestFilter
-        const presenter = new THREE.Mesh(
-            new THREE.BoxBufferGeometry(1,2,1),
-            new THREE.MeshStandardMaterial({
-                map: presenterTexture
-            })
-        )
-        presenterGroup.add(presenter)
+        this.presenterGroups = []
+        this.minecraftCubes = []
 
-        const presenterButton = new THREE.Mesh(
-            new THREE.BoxBufferGeometry(0.25, 0.5, 0.5),
-            new THREE.MeshStandardMaterial({
-                color: 0x000000
-            })
-        )
-        presenterButton.position.y = 0.25
-        presenterButton.position.x = -0.5
-        presenterGroup.add(presenterButton)
-
-        this.minecraftCubes = [
-            new THREE.Mesh(
-                new THREE.BoxBufferGeometry(1,1,1),
-                new THREE.MeshNormalMaterial()
-            )   
-        ]
-        this.minecraftCubes[0].rotation.x = Math.PI * 0.25
-        this.minecraftCubes[0].rotation.z = Math.PI * 0.25
-        this.minecraftCubes[0].position.y = 2.5
+        const basePresenter = this.getBasePresenter(_textureLoader)
+        const baseCube = this.getBaseCube()
 
         for (let i = 0; i < Math.ceil(_cubesNumber / 2); i++) {
-
-            /**
-             * Right column
-             */
-            this.minecraftCubes.push(this.minecraftCubes[0].clone())
-            this.minecraftCubes[i*2].material = this.generateCubeMaterial(i*2, _textureLoader)
-
-            const rightPresenter = presenterGroup.clone()
-            rightPresenter.add(this.minecraftCubes[i*2])
-
-            rightPresenter.position.x = 4
-            rightPresenter.position.z = -i * 10
-
-            _scene.add(rightPresenter)
-
-            /**
-             * Left column
-             */
-            this.minecraftCubes.push(this.minecraftCubes[0].clone())
-            this.minecraftCubes[i*2 + 1].material = this.generateCubeMaterial(i*2 + 1, _textureLoader)
-            this.minecraftCubes[i*2 + 1].rotation.x = Math.PI * 0.75
-            this.minecraftCubes[i*2 + 1].rotation.z = Math.PI * 0.75
-
-            const leftPresenter = presenterGroup.clone()
-            leftPresenter.add(this.minecraftCubes[i*2 + 1])
-
-            leftPresenter.position.x = -4
-            leftPresenter.position.z = -i * 10
-            leftPresenter.rotation.y = Math.PI
-
-            _scene.add(leftPresenter)
+            _scene.add(this.getNewPresenter(basePresenter, baseCube, _textureLoader, i, 0))
+            _scene.add(this.getNewPresenter(basePresenter, baseCube, _textureLoader, i, 1))
         }
-        this.minecraftCubes.pop()
     }
 
     update() {
@@ -86,6 +27,23 @@ export default class CubePresenters {
         this.minecraftCubes.forEach(cube => {
             cube.position.y = 2.5 + Math.sin(now + cube.parent.position.z) * 0.2
         })
+    }
+
+    click(_camera) {
+        this.raycaster.setFromCamera(this.raycasterCenter, _camera)
+        const start = Math.ceil(Math.max(_camera.position.z * -0.1, 0)) * 2
+        for (let i = start; i < start + 4; i++) {
+            const intersections = this.raycaster.intersectObjects(this.presenterGroups[i].children)
+            if (intersections.length > 0) {
+                if (intersections[0].object.name === 'cube') {
+                    console.log(`Tap on cube ${this.presenterGroups[i].userData.cubeId}`);
+                } else {
+                    console.log(`Tap on button ${this.presenterGroups[i].userData.cubeId}`);
+                }
+                break
+            }
+        }
+        
     }
 
     generateCubeMaterial(_i, _textureLoader) {
@@ -108,6 +66,68 @@ export default class CubePresenters {
             sideMaterial,
         ]
         return cubeMaterials
+    }
+
+    getBaseCube() {
+        const baseCube = new THREE.Mesh(
+            new THREE.BoxBufferGeometry(1,1,1),
+            new THREE.MeshNormalMaterial()
+        )
+        baseCube.name = "cube"
+        baseCube.rotation.x = Math.PI * 0.25
+        baseCube.rotation.z = Math.PI * 0.25
+        baseCube.position.y = 2.5
+        return baseCube
+    }
+
+    getPresenterMaterial(_textureLoader) {
+        const presenterTexture = _textureLoader.load(presenterColorSource)
+        presenterTexture.repeat.x = 1
+        presenterTexture.repeat.y = 2
+        presenterTexture.wrapS = THREE.RepeatWrapping
+        presenterTexture.wrapT = THREE.RepeatWrapping
+        presenterTexture.magFilter = THREE.NearestFilter
+        presenterTexture.minFilter = THREE.NearestFilter
+        return new THREE.MeshStandardMaterial({ map: presenterTexture })
+    }
+
+    getBasePresenter(_textureLoader) {
+        const basePresenter = new THREE.Group()
+        basePresenter.position.y = 1
+
+        const presenter = new THREE.Mesh(
+            new THREE.BoxBufferGeometry(1,2,1),
+            this.getPresenterMaterial(_textureLoader)
+        )
+        basePresenter.add(presenter)
+
+        const presenterButton = new THREE.Mesh(
+            new THREE.BoxBufferGeometry(0.25, 0.5, 0.5),
+            new THREE.MeshStandardMaterial({
+                color: 0x000000
+            })
+        )
+        presenterButton.position.y = 0.25
+        presenterButton.position.x = -0.5
+        basePresenter.add(presenterButton)
+        return basePresenter
+    }
+
+    getNewPresenter(_basePresenter, _baseCube, _textureLoader, _i, _offset) {
+        const index = _i * 2 + _offset
+        this.minecraftCubes.push(_baseCube.clone())
+        this.minecraftCubes[index].material = this.generateCubeMaterial(index, _textureLoader)
+        this.minecraftCubes[index].rotation.x = Math.PI * (0.75 - 0.5 * _offset)
+        this.minecraftCubes[index].rotation.z = Math.PI * (0.75 - 0.5 * _offset)
+
+        this.presenterGroups.push(_basePresenter.clone())
+        this.presenterGroups[index].userData = { cubeId: index }
+        this.presenterGroups[index].position.x = -4 + (8 * _offset)
+        this.presenterGroups[index].position.z = _i * -10
+        this.presenterGroups[index].rotation.y = Math.PI * (1 - _offset)
+
+        this.presenterGroups[index].add(this.minecraftCubes[index])
+        return this.presenterGroups[index]
     }
 
 }
