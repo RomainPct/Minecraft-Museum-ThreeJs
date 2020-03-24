@@ -23,8 +23,18 @@ export default class CubePresenters {
                 map: presenterTexture
             })
         )
-
         presenterGroup.add(presenter)
+
+        const presenterButton = new THREE.Mesh(
+            new THREE.BoxBufferGeometry(0.25, 0.5, 0.5),
+            new THREE.MeshStandardMaterial({
+                color: 0x000000
+            })
+        )
+        presenterButton.position.y = 0.25
+        presenterButton.position.x = -0.5
+        presenterGroup.add(presenterButton)
+
         this.minecraftCubes = [
             new THREE.Mesh(
                 new THREE.BoxBufferGeometry(1,1,1),
@@ -32,6 +42,7 @@ export default class CubePresenters {
             )   
         ]
         this.minecraftCubes[0].rotation.x = Math.PI * 0.25
+        this.minecraftCubes[0].rotation.z = Math.PI * 0.25
         this.minecraftCubes[0].position.y = 2.5
 
         for (let i = 0; i < Math.ceil(_cubesNumber / 2); i++) {
@@ -41,7 +52,6 @@ export default class CubePresenters {
              */
             this.minecraftCubes.push(this.minecraftCubes[0].clone())
             this.minecraftCubes[i*2].material = this.generateCubeMaterial(i*2, _textureLoader)
-            this.minecraftCubes[0].rotation.z = Math.PI * 0.25
 
             const rightPresenter = presenterGroup.clone()
             rightPresenter.add(this.minecraftCubes[i*2])
@@ -56,13 +66,15 @@ export default class CubePresenters {
              */
             this.minecraftCubes.push(this.minecraftCubes[0].clone())
             this.minecraftCubes[i*2 + 1].material = this.generateCubeMaterial(i*2 + 1, _textureLoader)
-            this.minecraftCubes[i*2 + 1].rotation.z = Math.PI * -0.25
+            this.minecraftCubes[i*2 + 1].rotation.x = Math.PI * 0.75
+            this.minecraftCubes[i*2 + 1].rotation.z = Math.PI * 0.75
 
             const leftPresenter = presenterGroup.clone()
             leftPresenter.add(this.minecraftCubes[i*2 + 1])
 
             leftPresenter.position.x = -4
             leftPresenter.position.z = -i * 10
+            leftPresenter.rotation.y = Math.PI
 
             _scene.add(leftPresenter)
         }
