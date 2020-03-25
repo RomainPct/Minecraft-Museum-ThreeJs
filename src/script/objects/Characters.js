@@ -1,13 +1,11 @@
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
 export default class Characters {
 
     constructor(_scene, _gltfLoader, _textureLoader) {
         this.characters = []
 
-        this.characterTexture = _textureLoader.load('/static/character/texture_1.png')
+        this.characterTexture = _textureLoader.load(`/static/character/texture_${Math.floor(Math.random() * 8)}.png`)
         this.characterTexture.magFilter = THREE.NearestFilter
         this.characterTexture.minFilter = THREE.NearestFilter
 

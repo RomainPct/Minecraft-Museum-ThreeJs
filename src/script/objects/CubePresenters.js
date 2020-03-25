@@ -54,13 +54,16 @@ export default class CubePresenters {
     }
 
     generateCubeMaterial(_i, _textureLoader) {
-        const sideTexture = _textureLoader.load(cactusSideSource)
+        const sideTextureUrl = this.fileExists(`/static/blocks/${_i}_side.png`) ? `/static/blocks/${_i}_side.png` : `/static/blocks/${_i}.png`
+        const sideTexture = _textureLoader.load(sideTextureUrl)
         sideTexture.magFilter = THREE.NearestFilter
         sideTexture.minFilter = THREE.NearestFilter
-        const topTexture = _textureLoader.load(cactusTopSource)
+        const topTextureUrl = this.fileExists(`/static/blocks/${_i}_top.png`) ? `/static/blocks/${_i}_top.png` : `/static/blocks/${_i}.png`
+        const topTexture = _textureLoader.load(topTextureUrl)
         topTexture.magFilter = THREE.NearestFilter
         topTexture.minFilter = THREE.NearestFilter
-        const bottomTexture = _textureLoader.load(cactusBottomSource)
+        const bottomTextureUrl = this.fileExists(`/static/blocks/${_i}_bottom.png`) ? `/static/blocks/${_i}_bottom.png` : `/static/blocks/${_i}.png`
+        const bottomTexture = _textureLoader.load(bottomTextureUrl)
         bottomTexture.magFilter = THREE.NearestFilter
         bottomTexture.minFilter = THREE.NearestFilter
         const sideMaterial = new THREE.MeshStandardMaterial({ map: sideTexture })
@@ -73,6 +76,17 @@ export default class CubePresenters {
             sideMaterial,
         ]
         return cubeMaterials
+    }
+
+    fileExists(url) {
+        if(url){
+            var req = new XMLHttpRequest();
+            req.open('GET', url, false);
+            req.send();
+            return req.status==200;
+        } else {
+            return false;
+        }
     }
 
     getBaseCube() {
