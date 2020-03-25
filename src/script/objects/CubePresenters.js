@@ -54,15 +54,14 @@ export default class CubePresenters {
     }
 
     generateCubeMaterial(_i, _textureLoader) {
-        const sideTextureUrl = this.fileExists(`/static/blocks/${_i}_side.png`) ? `/static/blocks/${_i}_side.png` : `/static/blocks/${_i}.png`
-        const sideTexture = _textureLoader.load(sideTextureUrl)
+        const sideTexture = _textureLoader.load(`/static/blocks/${_i}_side.png`)
         sideTexture.magFilter = THREE.NearestFilter
         sideTexture.minFilter = THREE.NearestFilter
-        const topTextureUrl = this.fileExists(`/static/blocks/${_i}_top.png`) ? `/static/blocks/${_i}_top.png` : `/static/blocks/${_i}.png`
+        const topTextureUrl = this.fileExists(`/static/blocks/${_i}_top.png`) ? `/static/blocks/${_i}_top.png` : `/static/blocks/${_i}_side.png`
         const topTexture = _textureLoader.load(topTextureUrl)
         topTexture.magFilter = THREE.NearestFilter
         topTexture.minFilter = THREE.NearestFilter
-        const bottomTextureUrl = this.fileExists(`/static/blocks/${_i}_bottom.png`) ? `/static/blocks/${_i}_bottom.png` : `/static/blocks/${_i}.png`
+        const bottomTextureUrl = this.fileExists(`/static/blocks/${_i}_bottom.png`) ? `/static/blocks/${_i}_bottom.png` : `/static/blocks/${_i}_side.png`
         const bottomTexture = _textureLoader.load(bottomTextureUrl)
         bottomTexture.magFilter = THREE.NearestFilter
         bottomTexture.minFilter = THREE.NearestFilter
