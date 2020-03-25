@@ -53,7 +53,7 @@ export default class Floor {
     }
 
     addSidesToScene(_scene, _depth) {
-        const sideMaterial = new THREE.MeshBasicMaterial({ color: 0xffffaa })
+        const sideMaterial = new THREE.MeshStandardMaterial({ color: 0xffffaa })
         const leftSide = new THREE.Mesh(
             new THREE.BoxBufferGeometry(0.99, 0.5, _depth),
             sideMaterial

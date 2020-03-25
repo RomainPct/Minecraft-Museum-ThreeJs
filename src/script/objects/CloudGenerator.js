@@ -23,12 +23,12 @@ export default class CloudGenerator {
         this.cloudLevel1.position.y = 20
         this.cloudLevel2 = new THREE.Group()
         this.cloudLevel2.position.y = 25
-        for (let i = 0; i < _cubesNumber * 3 * this.cloudiness; i++) {
+        for (let i = 0; i < _cubesNumber * 8 * this.cloudiness; i++) {
             const cloud = new THREE.Mesh(
                 this.cloudGeometries[Math.floor(Math.random() * this.cloudGeometries.length)],
                 this.cloudMaterial
             )
-            cloud.position.x = (Math.random() - 0.5) * 60
+            cloud.position.x = (Math.random() - 0.5) * 160
             cloud.position.z = i * -(3 - this.cloudiness)
             cloud.rotation.z = Math.PI * Math.floor(Math.random() * 4) / 2
             cloud.rotation.x = Math.PI * 0.5

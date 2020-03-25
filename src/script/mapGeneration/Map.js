@@ -84,7 +84,7 @@ export default class Map {
         const worldMesh = new THREE.Mesh(worldGeometry, new THREE.MeshLambertMaterial({
             map: worldtexture
         }))
-        worldMesh.position.y = -12
+        worldMesh.position.y = -10
         _scene.add(worldMesh)
     }
 
@@ -94,11 +94,12 @@ export default class Map {
         const size = width * height
         let quality = 2
         const z = Math.random() * 1
-        for ( var j = 0; j < 4; j ++ ) {
+        for ( let j = 0; j < 4; j ++ ) {
             if ( j === 0 ) for ( var i = 0; i < size; i ++ ) data[ i ] = 0
             for ( var i = 0; i < size; i ++ ) {
-                var x = i % width, y = ( i / width ) | 0
-                data[i] += perlin.noise( x / quality, y / quality, z ) * quality
+                const x = i % width
+                const y = ( i / width ) | 0
+                data[i] += perlin.noise( x / quality, y / quality, z ) * quality / 2
             }
             quality *= 4
         }
