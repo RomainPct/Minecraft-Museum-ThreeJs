@@ -32,8 +32,8 @@ export default class CubePresenters {
 
     click(_camera) {
         this.raycaster.setFromCamera(this.raycasterCenter, _camera)
-        const start = (Math.ceil(Math.max(_camera.position.z * -0.1, 0)) * 2) - 4
-        for (let i = start; i < start + 8; i++) {
+        const start = Math.max((Math.ceil(Math.max(_camera.position.z * -0.1, 0)) * 2) - 4, 0)
+        for (let i = start; i < Math.min(start + 8, this.presenterGroups.length); i++) {
             const intersections = this.raycaster.intersectObjects(this.presenterGroups[i].children)
             if (intersections.length > 0) {
                 if (intersections[0].object.name === 'cube') {

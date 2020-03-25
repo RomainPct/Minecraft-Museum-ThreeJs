@@ -17,26 +17,28 @@ export default class Isldands {
     }
 
     generateIslandGroups(_scene, _cubesNumber) {
-        for (let i = 0; i < _cubesNumber / 2; i++) {
+        for (let i = 0; i < _cubesNumber * 5; i++) {
             const group = new THREE.Group()
             const height = Math.round(Math.random() * 4) + 2
             const islandType = Math.round(Math.random())
-            for (let h = 0; h <= height; h++) {
+            for (let h = 0; h <= 0; h++) {
                 const s = Math.pow(1.4, h) - 0.5
                 const layer = this.islandBaseLayers[islandType].clone()
                 layer.scale.set(s,s,1)
-                layer.position.z = -h
+                layer.position.x = s/2
+                layer.position.y = s/2
+                layer.position.z = 0
                 group.add(layer)
             }
             if (i % 2 != 0) {
-                group.position.x = -25 - Math.random() * 20
+                group.position.x = -25 - Math.random() * 10
             } else {
-                group.position.x = 25 + Math.random() * 20
+                group.position.x = 25 + Math.random() * 10
             }
-            group.position.z = (Math.random() * _cubesNumber * -6) + 40
+            // group.position.z = (Math.random() * _cubesNumber * -6) + 40
             group.position.y = -height + (Math.random() - 0.8) * 4
             group.rotation.z = Math.PI * Math.floor(Math.random() * 4) / 2
-            group.rotation.x = Math.PI * 0.5
+            group.rotation.x = Math.PI * 1.5
             _scene.add(group)
         }
     }

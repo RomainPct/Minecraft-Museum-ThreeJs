@@ -23,7 +23,7 @@ export default class Characters {
                     const child = gltf.scene.children[0]
                     child.material = this.characterMaterial
                     const pivot = new THREE.Object3D()
-                    console.log(child)
+                    // console.log(child)
                     pivot.add(child)
                     pivot.name = `pivot${child.name}`
                     if (child.name == 'leftArm' || child.name == 'rightArm') {
@@ -44,7 +44,7 @@ export default class Characters {
                 }
                 _scene.add(character)
                 this.characters.push(characterObject)
-                console.log(this.characters)
+                // console.log(this.characters)
             },
             (progress) => {
                 console.log('progress', progress);

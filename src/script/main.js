@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
+import Map from './mapGeneration/Map.js'
 import CubePresenters from './objects/CubePresenters.js'
 import LightManager from './objects/LightManager.js'
 import Floor from './objects/Floor.js'
@@ -17,6 +18,7 @@ const gltfLoader = new GLTFLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
 
 const textureLoader = new THREE.TextureLoader()
+const container = document.querySelector('#app')
 
 /**
  * Popup info
@@ -65,11 +67,11 @@ document.addEventListener('webkitpointerlockchange', pointerLockChange, false)
 /** 
  * Scene
 */
-const cubesNumber = 130
+const cubesNumber = 6
 const skyColor = 0x2d99fc
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(skyColor)
-scene.fog = new THREE.FogExp2(0x9FD0FD, 0.04)
+scene.fog = new THREE.FogExp2(0x9FD0FD, 0.03)
 const camera = new Camera(scene, sizes)
 
 const floor = new Floor(scene, textureLoader, cubesNumber)
@@ -78,6 +80,7 @@ const clouds = new CloudGenerator(scene, cubesNumber)
 const islands = new Islands(scene, textureLoader, cubesNumber)
 const lightManager = new LightManager(scene)
 const characters = new Characters(scene, gltfLoader, textureLoader)
+const map = new Map(scene, textureLoader, cubesNumber)
 
 /** 
  * Renderer
@@ -85,7 +88,7 @@ const characters = new Characters(scene, gltfLoader, textureLoader)
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sizes.width,sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2)) // Pour le limiter à 2 (perf)
-document.querySelector('#app').appendChild(renderer.domElement)
+container.appendChild(renderer.domElement)
 renderer.render(scene,camera.elem)
 
 /** 

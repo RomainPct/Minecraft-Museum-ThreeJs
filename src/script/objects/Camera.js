@@ -3,7 +3,7 @@ import * as THREE from 'three'
 export default class Camera {
 
     constructor(_scene, _sizes) {
-        this.elem = new THREE.PerspectiveCamera(75, _sizes.ratio(), 0.1, 60)
+        this.elem = new THREE.PerspectiveCamera(75, _sizes.ratio(), 0.1, 80)
         this.elem.position.z = 7.5
         this.elem.position.y = 2.5
         this.elem.rotation.order = 'YXZ'
