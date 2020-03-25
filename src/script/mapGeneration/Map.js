@@ -5,7 +5,7 @@ export default class Map {
 
     constructor(_scene, _textureLoader, _cubesNumber) {
         this.worldWidth = 160
-        this.worldDepth = _cubesNumber * 5 + 160
+        this.worldDepth = _cubesNumber * 10 + 160
         this.data = this.generateHeight(this.worldWidth, this.worldDepth)
 
         const matrix = new THREE.Matrix4()
@@ -84,7 +84,7 @@ export default class Map {
         const worldMesh = new THREE.Mesh(worldGeometry, new THREE.MeshLambertMaterial({
             map: worldtexture
         }))
-        worldMesh.position.y = -6
+        worldMesh.position.y = -12
         _scene.add(worldMesh)
     }
 

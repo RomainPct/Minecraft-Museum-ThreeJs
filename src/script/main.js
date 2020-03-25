@@ -67,7 +67,7 @@ document.addEventListener('webkitpointerlockchange', pointerLockChange, false)
 /** 
  * Scene
 */
-const cubesNumber = 6
+const cubesNumber = 100
 const skyColor = 0x2d99fc
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(skyColor)
