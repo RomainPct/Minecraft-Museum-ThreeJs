@@ -65,11 +65,11 @@ document.addEventListener('webkitpointerlockchange', pointerLockChange, false)
 /** 
  * Scene
 */
-const cubesNumber = 4
-
+const cubesNumber = 130
+const skyColor = 0x2d99fc
 const scene = new THREE.Scene()
-scene.background = new THREE.Color( 0x0E050F )
-scene.fog = new THREE.FogExp2(0x0E0E0E, 0.05)
+scene.background = new THREE.Color(skyColor)
+scene.fog = new THREE.FogExp2(0x9FD0FD, 0.04)
 const camera = new Camera(scene, sizes)
 
 const floor = new Floor(scene, textureLoader, cubesNumber)
@@ -166,7 +166,7 @@ const animate = () => {
     cubePresenters.update()
     characters.update()
 
-    camera.update(userData, sizes)
+    camera.update(userData, sizes, cubesNumber)
     userData.deltaY = 0
     renderer.render(scene,camera.elem)
 }

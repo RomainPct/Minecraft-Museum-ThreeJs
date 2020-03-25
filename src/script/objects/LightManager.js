@@ -12,7 +12,7 @@ export default class LightManager {
         /**
          * Presenter light from bottom
          */
-        this.directionalLight = new THREE.DirectionalLight(0xffffff, 1)
+        this.directionalLight = new THREE.DirectionalLight(0xffffff, 1.2)
         this.directionalLight.position.y = 2
         this.directionalLight.target.position.y = 20
         _scene.add(this.directionalLight)

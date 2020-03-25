@@ -10,7 +10,7 @@ export default class Camera {
         _scene.add(this.elem)
     }
 
-    update(_userData, _sizes) {
+    update(_userData, _sizes, _cubesNumber) {
         this.elem.rotation.y = Math.PI * -((_userData.cursorX / _sizes.width) - 0.5) * 1
         this.elem.rotation.x = Math.PI * -((_userData.cursorY / _sizes.height) - 0.5) * 0.5
         let newPosZ = this.elem.position.z
@@ -29,7 +29,7 @@ export default class Camera {
                 newPosZ -= Math.sin(this.elem.rotation.y) * _userData.keyMoveX
             }
         }
-        this.elem.position.z = Math.min(newPosZ, 10)
+        this.elem.position.z = Math.max(Math.min(newPosZ, 18), (_cubesNumber * -5) + 2)
         this.elem.position.x = Math.min(Math.max(newPosX, -3), 3)
     }
 
