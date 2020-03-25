@@ -124,7 +124,7 @@ export default class CubePresenters {
         const presenterButton = new THREE.Mesh(
             new THREE.BoxBufferGeometry(0.25, 0.5, 0.5),
             new THREE.MeshStandardMaterial({
-                color: 0x000000
+                map: _textureLoader.load(`/static/blocks/63_side.png`)
             })
         )
         presenterButton.position.y = 0.25
