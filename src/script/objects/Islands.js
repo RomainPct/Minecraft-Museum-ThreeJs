@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 export default class Isldands {
 
-    constructor(_scene, _textureLoader) {
+    constructor(_scene, _textureLoader, _cubesNumber) {
         this.basePath = [
             [[-3,0], [-3, 2], [-2, 2], [-2, 4], [0, 4], [0, 2], [3, 2], [3, 1], [2, 1], [2, -1], [1, -1], [1, -3], [-1, -3], [-1, -2], [-2, -2], [-2, -1], [-3, -1]],
             [[0, 2], [0, 3], [1, 3], [1, 4], [2, 4], [2, 5], [3, 5], [3, 4], [4, 4], [4, 3], [5, 3], [5, 2], [4, 2], [4, 1], [3, 1], [3, 0], [2, 0], [2, 1], [1, 1], [1, 2]]
@@ -13,11 +13,11 @@ export default class Isldands {
         this.generateIslandBaseGeometries()
 
         this.islandGroups = []
-        this.generateIslandGroups(_scene)
+        this.generateIslandGroups(_scene, _cubesNumber)
     }
 
-    generateIslandGroups(_scene) {
-        for (let i = 0; i < 10; i++) {
+    generateIslandGroups(_scene, _cubesNumber) {
+        for (let i = 0; i < _cubesNumber / 2; i++) {
             const group = new THREE.Group()
             const height = Math.round(Math.random() * 4) + 2
             const islandType = Math.round(Math.random())
@@ -33,7 +33,7 @@ export default class Isldands {
             } else {
                 group.position.x = 25 + Math.random() * 20
             }
-            group.position.z = Math.random() * -100
+            group.position.z = (Math.random() * _cubesNumber * -6) + 40
             group.position.y = -height + (Math.random() - 0.8) * 4
             group.rotation.z = Math.PI * Math.floor(Math.random() * 4) / 2
             group.rotation.x = Math.PI * 0.5

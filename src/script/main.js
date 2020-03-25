@@ -75,7 +75,7 @@ const camera = new Camera(scene, sizes)
 const floor = new Floor(scene, textureLoader, cubesNumber)
 const cubePresenters = new CubePresenters(scene, textureLoader, cubesNumber, detailPopup)
 const clouds = new CloudGenerator(scene, cubesNumber)
-const islands = new Islands(scene, textureLoader)
+const islands = new Islands(scene, textureLoader, cubesNumber)
 const lightManager = new LightManager(scene)
 const characters = new Characters(scene, gltfLoader, textureLoader)
 
