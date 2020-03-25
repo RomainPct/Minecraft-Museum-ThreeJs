@@ -6,7 +6,13 @@
     <title>Minecraft Museum MVP</title>
 </head>
 <body>
-
+    <div id="js-welcomeScreen" class="welcomeScreen">
+        <img src="./resources/logo_minecraft_museum.svg" alt="Minecraft Museum Logo">
+        <form id="js-playForm" action="#play" method="post">
+            <input type="text" name="username" id="username" placeholder="Votre nom de joueur">
+            <input type="submit" value="Découvrir">
+        </form>
+    </div>
     <div id="js-blockDetailPopup" class="blockPopup">
         <div class="center">
             <h3>Nom du bloc</h3>

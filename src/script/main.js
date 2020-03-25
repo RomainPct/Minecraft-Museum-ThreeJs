@@ -1,4 +1,5 @@
 import '../style/main.styl'
+
 import * as THREE from 'three'
 import CubePresenters from './objects/CubePresenters.js'
 import LightManager from './objects/LightManager.js'
@@ -22,6 +23,30 @@ const sizes = {
     height: window.innerHeight,
     ratio: function() { return this.width / this.height }
 }
+
+/**
+ * Welcome screen and pointer lock
+ */
+const welcomeScreen = document.querySelector('#js-welcomeScreen')
+const playForm = welcomeScreen.querySelector('#js-playForm')
+playForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    renderer.domElement.requestPointerLock = renderer.domElement.requestPointerLock || renderer.domElement.mozRequestPointerLock || renderer.domElement.webkitPointerLockElement
+    renderer.domElement.requestPointerLock()
+    welcomeScreen.classList.add('hidden')
+})
+
+// document.pointerLockElement = document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement
+function pointerLockChange() {
+    if (!!document.pointerLockElement) {
+        console.log("Pointer locked")
+    } else {
+        welcomeScreen.classList.remove('hidden')
+    }
+}
+document.addEventListener('pointerlockchange', pointerLockChange, false)
+document.addEventListener('mozpointerlockchange', pointerLockChange, false)
+document.addEventListener('webkitpointerlockchange', pointerLockChange, false)
 
 /** 
  * Scene
@@ -69,9 +94,9 @@ const userData = {
     keyMoveX: 0,
     keyMoveY: 0
 }
-window.addEventListener('mousemove', (e) => {
-    userData.cursorX = (e.clientX / sizes.width) - 0.5
-    userData.cursorY = (e.clientY / sizes.height) - 0.5
+document.addEventListener('mousemove', (e) => {
+    userData.cursorX += e.movementX
+    userData.cursorY += e.movementY
 })
 
 window.addEventListener('wheel', e => userData.deltaY += e.deltaY )
@@ -124,7 +149,7 @@ const animate = () => {
 
     cubePresenters.update()
 
-    camera.update(userData)
+    camera.update(userData, sizes)
     userData.deltaY = 0
     renderer.render(scene,camera.elem)
 }

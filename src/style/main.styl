@@ -1,3 +1,21 @@
+@font-face {
+    font-family: 'Minecraft';
+    src: url('../resources/fonts/minecraft-webfont.woff2') format('woff2'),
+         url('../resources/fonts/minecraft-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Minecrafter';
+    src: url('../resources/fonts/minecrafter-reg-webfont.woff2') format('woff2'),
+         url('../resources/fonts/minecrafter-reg-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@import 'ui/welcome.styl'
+
 @import 'experience/app.styl'
 @import 'experience/detailPopup.styl'
 
@@ -8,3 +26,5 @@ body
 body
     margin 0
     background #FEFEFE
+    font-family "Minecraft", sans-serif
+    letter-spacing 1px
