@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import presenterColorSource from '../../resources/minecraft_textures/block/oak_log.png'
+import presenterColorSource from '../../../static/blocks/21_top.png'
 import cactusBottomSource from '../../resources/minecraft_textures/block/cactus_bottom.png'
 import cactusSideSource from '../../resources/minecraft_textures/block/cactus_side.png'
 import cactusTopSource from '../../resources/minecraft_textures/block/cactus_top.png'

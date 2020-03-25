@@ -1,14 +1,26 @@
 import '../style/main.styl'
-
 import * as THREE from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+
 import CubePresenters from './objects/CubePresenters.js'
 import LightManager from './objects/LightManager.js'
 import Floor from './objects/Floor.js'
 import Camera from './objects/Camera.js'
-import CloudGenerator from './objects/CloudGenerator'
-import Islands from './objects/Islands'
+import CloudGenerator from './objects/CloudGenerator.js'
+import Islands from './objects/Islands.js'
+import Characters from './objects/Characters.js'
+
+const dracoLoader = new DRACOLoader()
+dracoLoader.setDecoderPath('/static/draco/')
+const gltfLoader = new GLTFLoader()
+gltfLoader.setDRACOLoader(dracoLoader)
 
 const textureLoader = new THREE.TextureLoader()
+
+/**
+ * Popup info
+ */
 const detailPopup = document.querySelector('#js-blockDetailPopup')
 
 detailPopup.addEventListener('click', () => {
@@ -65,6 +77,7 @@ const cubePresenters = new CubePresenters(scene, textureLoader, cubesNumber, det
 const clouds = new CloudGenerator(scene, cubesNumber)
 const islands = new Islands(scene, textureLoader)
 const lightManager = new LightManager(scene)
+const characters = new Characters(scene, gltfLoader, textureLoader)
 
 /** 
  * Renderer
@@ -151,6 +164,7 @@ const animate = () => {
     requestAnimationFrame(animate)
 
     cubePresenters.update()
+    characters.update()
 
     camera.update(userData, sizes)
     userData.deltaY = 0
@@ -158,32 +172,3 @@ const animate = () => {
 }
 
 animate()
-
-
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-// import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-
-// const dracoLoader = new DRACOLoader()
-// dracoLoader.setDecoderPath('/static/draco/')
-// const gltfLoader = new GLTFLoader()
-// gltfLoader.setDRACOLoader(dracoLoader)
-
-// /** 
-//  * Model import
-// */
-// gltfLoader.load(
-//     '/static/duck/glTF-Draco/Duck.gltf',
-//     (gltf) => {
-//         while (gltf.scene.children.length) {
-//             const child = gltf.scene.children[0]
-//             child.position.y = -1
-//             scene.add(child)
-//         }
-//     },
-//     (progress) => {
-//         console.log('progress', progress);
-//     },
-//     (error) => {
-//         console.log('error', error);
-//     }
-// )
