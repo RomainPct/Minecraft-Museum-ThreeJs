@@ -13,6 +13,7 @@ const detailPopup = document.querySelector('#js-blockDetailPopup')
 
 detailPopup.addEventListener('click', () => {
     detailPopup.classList.remove('open')
+    // renderer.domElement.requestPointerLock()
 })
 
 /**
@@ -29,6 +30,7 @@ const sizes = {
  */
 const welcomeScreen = document.querySelector('#js-welcomeScreen')
 const playForm = welcomeScreen.querySelector('#js-playForm')
+document.exitPointerLock()
 playForm.addEventListener('submit', (e) => {
     e.preventDefault()
     renderer.domElement.requestPointerLock = renderer.domElement.requestPointerLock || renderer.domElement.mozRequestPointerLock || renderer.domElement.webkitPointerLockElement
@@ -88,8 +90,8 @@ window.addEventListener('resize', () => {
  * Cursor
 */
 const userData = {
-    cursorX: 0,
-    cursorY: 0,
+    cursorX: sizes.width / 2,
+    cursorY: sizes.height / 2,
     deltaY: 0,
     keyMoveX: 0,
     keyMoveY: 0
@@ -102,6 +104,7 @@ document.addEventListener('mousemove', (e) => {
 window.addEventListener('wheel', e => userData.deltaY += e.deltaY )
 
 window.addEventListener('keydown', (e) => {
+    detailPopup.classList.remove('open')
     switch (e.code) {
         case 'KeyS':
             userData.keyMoveY = 0.2
