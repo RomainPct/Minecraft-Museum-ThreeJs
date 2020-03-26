@@ -140,6 +140,8 @@ export default class CubePresenters {
             new THREE.BoxBufferGeometry(1,2,1),
             this.getPresenterMaterial(_textureLoader)
         )
+        presenter.matrixAutoUpdate = false
+        presenter.updateMatrix()
         basePresenter.add(presenter)
 
         const presenterButton = new THREE.Mesh(

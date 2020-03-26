@@ -32,6 +32,8 @@ export default class CloudGenerator {
             cloud.position.z = i * -(3 - this.cloudiness)
             cloud.rotation.z = Math.PI * Math.floor(Math.random() * 4) / 2
             cloud.rotation.x = Math.PI * 0.5
+            cloud.matrixAutoUpdate = false
+            cloud.updateMatrix()
             if (Math.random() < 0.5 ) {
                 this.cloudLevel1.add(cloud)
             } else {

@@ -26,6 +26,8 @@ export default class Floor {
         )
         this.lowFloor.rotation.x = Math.PI * -0.5
         this.lowFloor.position.y = -7
+        this.lowFloor.matrixAutoUpdate = false
+        this.lowFloor.updateMatrix()
         _scene.add(this.lowFloor)
     }
 
@@ -38,6 +40,8 @@ export default class Floor {
         )
         this.floor.rotation.x = Math.PI * -0.5
         this.floor.position.z = (_depth * -0.5) + 20
+        this.floor.matrixAutoUpdate = false
+        this.floor.updateMatrix()
         _scene.add(this.floor)
     }
 
@@ -60,10 +64,14 @@ export default class Floor {
         )
         leftSide.position.z = (_depth * -0.5) + 20
         leftSide.position.x = -4
+        leftSide.matrixAutoUpdate = false
+        leftSide.updateMatrix()
         _scene.add(leftSide)
 
         const rightSide = leftSide.clone()
         rightSide.position.x = 4
+        rightSide.matrixAutoUpdate = false
+        rightSide.updateMatrix()
         _scene.add(rightSide)
 
         const startSide = new THREE.Mesh(
@@ -71,10 +79,14 @@ export default class Floor {
             sideMaterial
         )
         startSide.position.z = 19.5
+        startSide.matrixAutoUpdate = false
+        startSide.updateMatrix()
         _scene.add(startSide)
 
         const endSide = startSide.clone()
         endSide.position.z = -(_depth - 20.5)
+        endSide.matrixAutoUpdate = false
+        endSide.updateMatrix()
         _scene.add(endSide)
     }
 

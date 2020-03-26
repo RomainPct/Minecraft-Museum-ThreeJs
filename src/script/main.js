@@ -134,6 +134,7 @@ window.addEventListener('wheel', (e) => {
 })
 
 window.addEventListener('keydown', (e) => {
+    if (!canvasIsFocused) { return }
     detailPopup.classList.remove('open')
     switch (e.code) {
         case 'KeyS':
@@ -165,6 +166,7 @@ window.addEventListener('keydown', (e) => {
     }
 })
 window.addEventListener('keyup', (e) => {
+    if (!canvasIsFocused) { return }
     if (e.code == 'ArrowDown' || e.code == 'ArrowUp' || e.code == 'KeyW' || e.code == 'KeyS') {
         userData.keyMoveY = 0
     } else if (e.code == 'ArrowLeft' || e.code == 'ArrowRight' || e.code == 'KeyA' || e.code == 'KeyD') {
@@ -212,7 +214,7 @@ animate()
 
 // const socket = io.connect('http://localhost:8081')
 const socket = io.connect('http://37.187.0.208:8081')
-console.log(socket)
+// console.log(socket)
 
 socket.on('init', (players) => {
     Object.keys(players).forEach(key => {
@@ -225,10 +227,10 @@ socket.on('positions_update', (player) => {
     characters.updatePlayer(player)
 })
 socket.on('player_disconnected', (player_id) => {
-    console.log('Remove player with id', player_id)
+    // console.log('Remove player with id', player_id)
     characters.removePlayerWithId(player_id)
 })
 socket.on('block_click', (block_id) => {
-    console.log('Block click', block_id)
+    // console.log('Block click', block_id)
     cubePresenters.animBlockClick(block_id)
 })

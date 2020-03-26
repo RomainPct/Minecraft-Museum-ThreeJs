@@ -8,6 +8,7 @@ export default class Characters {
     constructor(_scene, _textureLoader) {
         this.characters = {}
         this.scene = _scene
+        this.textureLoader = _textureLoader
 
         this.textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 })
 
@@ -53,7 +54,7 @@ export default class Characters {
                 this.baseCharacter = character
             },
             (progress) => {
-                console.log('progress', progress);
+                // console.log('progress', progress);
             },
             (error) => {
                 console.log('error', error);
@@ -66,7 +67,7 @@ export default class Characters {
         if (typeof _data.skin == "number") {
             userMaterial = this.characterMaterials[_data.skin || 0]
         } else {
-            const customTexture = _textureLoader.load(`https://minotar.net/skin/2f3665cc5e29439bbd14cb6d3a6313a7`)
+            const customTexture = this.textureLoader.load(`https://minotar.net/skin/2f3665cc5e29439bbd14cb6d3a6313a7`)
             customTexture.flipY = false
             customTexture.magFilter = THREE.NearestFilter
             customTexture.minFilter = THREE.NearestFilter
@@ -138,7 +139,7 @@ export default class Characters {
     }
 
     removePlayerWithId(id) {
-        console.log('remove player with id', id)
+        // console.log('remove player with id', id)
         this.scene.remove(this.characters[id])
         delete this.characters[id]
     }
