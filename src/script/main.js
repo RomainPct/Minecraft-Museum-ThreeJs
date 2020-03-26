@@ -61,6 +61,8 @@ const sizes = {
 const welcomeScreen = document.querySelector('#js-welcomeScreen')
 const playForm = welcomeScreen.querySelector('#js-playForm')
 const nameInput = playForm.querySelector('#js-nameInput')
+let canvasIsFocused = false
+
 document.exitPointerLock()
 playForm.addEventListener('submit', (e) => {
     e.preventDefault()
@@ -73,14 +75,17 @@ playForm.addEventListener('submit', (e) => {
     })
     renderer.domElement.requestPointerLock = renderer.domElement.requestPointerLock || renderer.domElement.mozRequestPointerLock || renderer.domElement.webkitPointerLockElement
     renderer.domElement.requestPointerLock()
+    console.log(welcomeScreen.classList.contains('hidden'))
     welcomeScreen.classList.add('hidden')
+    nameInput.setAttribute('disabled','true')
 })
 
 // document.pointerLockElement = document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement
 function pointerLockChange() {
     if (!!document.pointerLockElement) {
-        console.log("Pointer locked")
+        canvasIsFocused = true
     } else {
+        canvasIsFocused = false
         welcomeScreen.classList.remove('hidden')
     }
 }
@@ -181,7 +186,11 @@ window.addEventListener('keyup', (e) => {
     }
 })
 
-window.addEventListener('click', () => cubePresenters.click(camera.elem, socket))
+window.addEventListener('click', () => {
+    if (canvasIsFocused) {
+        cubePresenters.click(camera.elem, socket)
+    }
+})
 
 /** 
  * Animation
@@ -191,23 +200,25 @@ const animate = () => {
 
     cubePresenters.update()
 
-    const oldPos = {
-        x: camera.elem.position.x,
-        z: camera.elem.position.z,
-        rotY: camera.elem.rotation.y,
-        rotX: camera.elem.rotation.x
+    if (canvasIsFocused) {
+        const oldPos = {
+            x: camera.elem.position.x,
+            z: camera.elem.position.z,
+            rotY: camera.elem.rotation.y,
+            rotX: camera.elem.rotation.x
+        }
+        camera.update(userData, sizes, cubesNumber)
+        const newPos = {
+            x: camera.elem.position.x,
+            z: camera.elem.position.z,
+            rotY: camera.elem.rotation.y,
+            rotX: camera.elem.rotation.x
+        }
+        if (oldPos.x != newPos.x || oldPos.y != newPos.y || oldPos.rotY != newPos.rotY || oldPos.rotX != newPos.rotX ) {
+            socket.emit('update_my_position', newPos)
+        }
     }
-    camera.update(userData, sizes, cubesNumber)
     userData.deltaY = 0
-    const newPos = {
-        x: camera.elem.position.x,
-        z: camera.elem.position.z,
-        rotY: camera.elem.rotation.y,
-        rotX: camera.elem.rotation.x
-    }
-    if (oldPos.x != newPos.x || oldPos.y != newPos.y || oldPos.rotY != newPos.rotY || oldPos.rotX != newPos.rotX ) {
-        socket.emit('update_my_position', newPos)
-    }
     renderer.render(scene,camera.elem)
 }
 
