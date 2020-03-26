@@ -142,11 +142,17 @@ const userData = {
     keyMoveY: 0
 }
 document.addEventListener('mousemove', (e) => {
-    userData.cursorX += e.movementX
-    userData.cursorY += e.movementY
+    if (canvasIsFocused) {
+        userData.cursorX += e.movementX
+        userData.cursorY += e.movementY
+    }
 })
 
-window.addEventListener('wheel', e => userData.deltaY += e.deltaY )
+window.addEventListener('wheel', (e) => {
+    if (canvasIsFocused) {
+        userData.deltaY += e.deltaY
+    }
+})
 
 window.addEventListener('keydown', (e) => {
     detailPopup.classList.remove('open')
