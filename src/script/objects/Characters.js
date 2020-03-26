@@ -10,11 +10,7 @@ export default class Characters {
 
         this.characterMaterials = []
         for (let i = 0; i < 8; i++) {
-            console.log("loooop");
-            
             const characterTexture = _textureLoader.load(`/static/character/texture_${i}.png`)
-            console.log(`/static/character/texture_${i}.png`)
-            console.log(characterTexture);
             characterTexture.magFilter = THREE.NearestFilter
             characterTexture.minFilter = THREE.NearestFilter
             this.characterMaterials.push(new THREE.MeshStandardMaterial({ map: characterTexture }))

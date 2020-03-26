@@ -29,34 +29,52 @@ export default class CubePresenters {
         })
     }
 
-    click(_camera) {
+    click(_camera, _socket) {
         this.raycaster.setFromCamera(this.raycasterCenter, _camera)
         const start = Math.max((Math.ceil(Math.max(_camera.position.z * -0.1, 0)) * 2) - 4, 0)
         for (let i = start; i < Math.min(start + 8, this.presenterGroups.length); i++) {
             const intersections = this.raycaster.intersectObjects(this.presenterGroups[i].children)
             if (intersections.length > 0) {
                 if (intersections[0].object.name === 'cube') {
-                    console.log(`Tap on cube ${this.presenterGroups[i].userData.cubeId}`);
+                    this.animBlockClick(i, _socket)
                 } else {
-                    console.log(`Tap on button ${this.presenterGroups[i].userData.cubeId}`);
-                    this.presenterGroups[i].children[1].position.x += 0.1
-                    setTimeout(() => {
-                        this.presenterGroups[i].children[1].position.x -= 0.1
-                    },200)
-                    fetch(`/static/blocks_data/${i}.json`)
-                        .then(response => {
-                            return response.json()
-                        })
-                        .then(json => {
-                            this.popupBlockName.innerText = json.name
-                            this.popupBlockDescription.innerText = json.description
-                        })
-                    this.popup.classList.toggle('open')
+                    this.openPopupForBlock(i)
                 }
                 break
             }
         }
+    }
+
+    animBlockClick(_i, _socket = null) {
+        const cube = this.presenterGroups[_i].getObjectByName('cube')
+        for (let i = 0; i <= 180; i++) {
+            const t = i / 180
+            setTimeout(() => {
+                cube.rotation.y = Math.PI * 8 * t * ( 2 - t )
+            }, i * 1000 / 60)
+        }
+        console.log(_socket);
         
+        if (_socket != null) {
+            _socket.emit('block_click', _i)
+        }
+    }
+
+    openPopupForBlock(_i) {
+        console.log(`Tap on button ${this.presenterGroups[_i].userData.cubeId}`);
+        this.presenterGroups[_i].children[1].position.x += 0.1
+        setTimeout(() => {
+            this.presenterGroups[_i].children[1].position.x -= 0.1
+        },200)
+        fetch(`/static/blocks_data/${_i}.json`)
+            .then(response => {
+                return response.json()
+            })
+            .then(json => {
+                this.popupBlockName.innerText = json.name
+                this.popupBlockDescription.innerText = json.description
+            })
+        this.popup.classList.toggle('open')
     }
 
     generateCubeMaterial(_i, _textureLoader) {

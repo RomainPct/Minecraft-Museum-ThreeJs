@@ -28,6 +28,10 @@ socket.on('player_disconnected', (player_id) => {
     console.log('Remove player with id', player_id)
     characters.removePlayerWithId(player_id)
 })
+socket.on('block_click', (block_id) => {
+    console.log('Block click', block_id)
+    cubePresenters.animBlockClick(block_id)
+})
 
 const textureLoader = new THREE.TextureLoader()
 const container = document.querySelector('#app')
@@ -177,7 +181,7 @@ window.addEventListener('keyup', (e) => {
     }
 })
 
-window.addEventListener('click', () => cubePresenters.click(camera.elem))
+window.addEventListener('click', () => cubePresenters.click(camera.elem, socket))
 
 /** 
  * Animation
