@@ -5,6 +5,8 @@ export default class CubePresenters {
 
     constructor(_scene, _textureLoader, _cubesNumber, _detailPopup) {
         this.popup = _detailPopup
+        this.popupBlockName = this.popup.querySelector('#js-blockName')
+        this.popupBlockDescription = this.popup.querySelector('#js-blockDescription')
         this.raycaster = new THREE.Raycaster()
         this.raycasterCenter = new THREE.Vector2(0, 0)
 
@@ -41,7 +43,14 @@ export default class CubePresenters {
                     setTimeout(() => {
                         this.presenterGroups[i].children[1].position.x -= 0.1
                     },200)
-                    this.popup.querySelector('h3').innerText = `Bloc n°${this.presenterGroups[i].userData.cubeId}`
+                    fetch(`/static/blocks_data/${i}.json`)
+                        .then(response => {
+                            return response.json()
+                        })
+                        .then(json => {
+                            this.popupBlockName.innerText = json.name
+                            this.popupBlockDescription.innerText = json.description
+                        })
                     this.popup.classList.toggle('open')
                 }
                 break
@@ -80,11 +89,6 @@ export default class CubePresenters {
 
     fileExists(url) {
         if(url){
-            // fetch(url)
-            //     .then(function(response) {
-            //         console.log(response.status == 200)
-            //         return response.status == 200
-            //     })
             var req = new XMLHttpRequest();
             req.open('GET', url, false);
             req.send();
