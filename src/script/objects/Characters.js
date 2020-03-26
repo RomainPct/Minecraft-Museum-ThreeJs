@@ -8,11 +8,17 @@ export default class Characters {
         this.characters = {}
         this.scene = _scene
 
-        this.characterTexture = _textureLoader.load(`/static/character/texture_${Math.floor(Math.random() * 8)}.png`)
-        this.characterTexture.magFilter = THREE.NearestFilter
-        this.characterTexture.minFilter = THREE.NearestFilter
-
-        this.characterMaterial = new THREE.MeshStandardMaterial({ map: this.characterTexture })
+        this.characterMaterials = []
+        for (let i = 0; i < 8; i++) {
+            console.log("loooop");
+            
+            const characterTexture = _textureLoader.load(`/static/character/texture_${i}.png`)
+            console.log(`/static/character/texture_${i}.png`)
+            console.log(characterTexture);
+            characterTexture.magFilter = THREE.NearestFilter
+            characterTexture.minFilter = THREE.NearestFilter
+            this.characterMaterials.push(new THREE.MeshStandardMaterial({ map: characterTexture }))
+        }
 
         const dracoLoader = new DRACOLoader()
         dracoLoader.setDecoderPath('/static/draco/')
@@ -22,15 +28,11 @@ export default class Characters {
         gltfLoader.load(
             '/static/character/steve.glb',
             (gltf) => {
-                console.log("success")
                 let character = new THREE.Group()
-                const characterObject = {
-                    object: character
-                }
                 character.scale.set(1.4,1.4,1.4)
                 while (gltf.scene.children.length) {
                     const child = gltf.scene.children[0]
-                    child.material = this.characterMaterial
+                    child.material = this.characterMaterials[0]
                     const pivot = new THREE.Object3D()
                     // console.log(child)
                     pivot.add(child)
@@ -48,7 +50,6 @@ export default class Characters {
                         pivot.position.y = height * 3
                         child.position.y = height * -3
                     }
-                    characterObject[pivot.name] = pivot
                     character.add(pivot)
                 }
                 this.baseCharacter = character
@@ -65,7 +66,9 @@ export default class Characters {
     updatePlayer(data) {
         if (this.characters[data.id] === undefined) {
             this.characters[data.id] = new THREE.Group()
+            this.characters[data.id].scale.set(1.4,1.4,1.4)
             this.baseCharacter.children.forEach(element => {
+                element.children[0].material = this.characterMaterials[data.skin || 0]
                 this.characters[data.id].add(element.clone())
             })
             this.scene.add(this.characters[data.id])
@@ -74,8 +77,8 @@ export default class Characters {
         this.characters[data.id].position.z = data.z
         this.characters[data.id].rotation.y = data.rotY
         this.characters[data.id].getObjectByName('pivotHead').rotation.x = data.rotX
-        this.characters[data.id].getObjectByName('pivotleftArm').rotation.x += Math.PI * 0.1
-        this.characters[data.id].getObjectByName('pivotrightArm').rotation.x -= Math.PI * 0.1
+        // this.characters[data.id].getObjectByName('pivotleftArm').rotation.x += Math.PI * 0.1
+        // this.characters[data.id].getObjectByName('pivotrightArm').rotation.x -= Math.PI * 0.1
         this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x += Math.PI * 0.1
         this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x -= Math.PI * 0.1
     }
