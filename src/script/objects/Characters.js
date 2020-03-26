@@ -73,7 +73,8 @@ export default class Characters {
             })
             this.characters[data.id].userData = {
                 movementPosition: 0,
-                movementDirection: true
+                movementDirection: true,
+                lastUpdate: Date.now()
             }
             this.scene.add(this.characters[data.id])
         }
@@ -81,21 +82,32 @@ export default class Characters {
         this.characters[data.id].position.z = data.z
         this.characters[data.id].rotation.y = data.rotY
         this.characters[data.id].getObjectByName('pivotHead').rotation.x = data.rotX
+        this.characters[data.id].userData.lastUpdate = Date.now()
         this.characters[data.id].userData.movementPosition += this.characters[data.id].userData.movementDirection ? 1 : -1
         if (this.characters[data.id].userData.movementPosition > 10 || this.characters[data.id].userData.movementPosition < -10) {
             this.characters[data.id].userData.movementDirection = !this.characters[data.id].userData.movementDirection
         }
         if(this.characters[data.id].userData.movementDirection) {
-            this.characters[data.id].getObjectByName('pivotleftArm').rotation.x -= Math.PI * 0.03
-            this.characters[data.id].getObjectByName('pivotrightArm').rotation.x += Math.PI * 0.03
-            this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x += Math.PI * 0.03
-            this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x -= Math.PI * 0.03
+            this.characters[data.id].getObjectByName('pivotleftArm').rotation.x -= Math.PI * 0.05
+            this.characters[data.id].getObjectByName('pivotrightArm').rotation.x += Math.PI * 0.05
+            this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x += Math.PI * 0.05
+            this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x -= Math.PI * 0.05
         } else {
-            this.characters[data.id].getObjectByName('pivotleftArm').rotation.x += Math.PI * 0.03
-            this.characters[data.id].getObjectByName('pivotrightArm').rotation.x -= Math.PI * 0.03
-            this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x -= Math.PI * 0.03
-            this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x += Math.PI * 0.03
+            this.characters[data.id].getObjectByName('pivotleftArm').rotation.x += Math.PI * 0.05
+            this.characters[data.id].getObjectByName('pivotrightArm').rotation.x -= Math.PI * 0.05
+            this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x -= Math.PI * 0.05
+            this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x += Math.PI * 0.05
         }
+        setTimeout(() => {
+            if (this.characters[data.id].userData.lastUpdate > Date.now() - 990) {
+                this.characters[data.id].userData.movementPosition = 0
+                this.characters[data.id].userData.movementDirection = true
+                this.characters[data.id].getObjectByName('pivotleftArm').rotation.x = 0
+                this.characters[data.id].getObjectByName('pivotrightArm').rotation.x = 0
+                this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x = 0
+                this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x = 0
+            }
+        }, 1000)
     }
 
     removePlayerWithId(id) {
