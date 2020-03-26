@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+// import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import font from 'three/examples/fonts/helvetiker_regular.typeface.json'
 
 export default class Characters {
@@ -19,10 +19,10 @@ export default class Characters {
             this.characterMaterials.push(new THREE.MeshStandardMaterial({ map: characterTexture }))
         }
 
-        const dracoLoader = new DRACOLoader()
-        dracoLoader.setDecoderPath('/static/draco/')
+        // const dracoLoader = new DRACOLoader()
+        // dracoLoader.setDecoderPath('/static/draco/')
         const gltfLoader = new GLTFLoader()
-        gltfLoader.setDRACOLoader(dracoLoader)
+        // gltfLoader.setDRACOLoader(dracoLoader)
 
         gltfLoader.load(
             '/static/character/steve.glb',
@@ -83,7 +83,7 @@ export default class Characters {
             movementDirection: true,
             lastUpdate: Date.now()
         }
-        const textGeometry = new THREE.TextGeometry(_data.name, {
+        const textGeometry = new THREE.TextGeometry(decodeURIComponent(_data.name), {
             font: new THREE.Font(font),
             size: 0.1,
             height: 0.03,

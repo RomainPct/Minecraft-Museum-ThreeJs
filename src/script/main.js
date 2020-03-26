@@ -11,29 +11,7 @@ import CloudGenerator from './objects/CloudGenerator.js'
 // import Islands from './objects/Islands.js'
 import Characters from './objects/Characters.js'
 
-const cubesNumber = 6
-// const socket = io.connect('http://localhost:8081')
-const socket = io.connect('http://37.187.0.208:8081')
-console.log(socket)
-
-socket.on('init', (players) => {
-    Object.keys(players).forEach(key => {
-        if (typeof players[key] === 'object' && players[key].id != socket.id) {
-            characters.updatePlayer(players[key])
-        }
-    })
-})
-socket.on('positions_update', (player) => {
-    characters.updatePlayer(player)
-})
-socket.on('player_disconnected', (player_id) => {
-    console.log('Remove player with id', player_id)
-    characters.removePlayerWithId(player_id)
-})
-socket.on('block_click', (block_id) => {
-    console.log('Block click', block_id)
-    cubePresenters.animBlockClick(block_id)
-})
+const cubesNumber = 74
 
 const textureLoader = new THREE.TextureLoader()
 const container = document.querySelector('#app')
@@ -69,12 +47,13 @@ document.exitPointerLock()
 playForm.addEventListener('submit', (e) => {
     e.preventDefault()
     socket.emit('new_player', {
-        name: nameInput.value,
+        name: encodeURIComponent(nameInput.value),
         x: camera.elem.position.x,
         z: camera.elem.position.z,
         rotY: camera.elem.rotation.y,
         rotX: camera.elem.rotation.x
     })
+    canvasIsFocused = true
     renderer.domElement.requestPointerLock = renderer.domElement.requestPointerLock || renderer.domElement.mozRequestPointerLock || renderer.domElement.webkitPointerLockElement
     renderer.domElement.requestPointerLock()
     welcomeScreen.classList.add('hidden')
@@ -230,3 +209,26 @@ const animate = () => {
 }
 
 animate()
+
+// const socket = io.connect('http://localhost:8081')
+const socket = io.connect('http://37.187.0.208:8081')
+console.log(socket)
+
+socket.on('init', (players) => {
+    Object.keys(players).forEach(key => {
+        if (typeof players[key] === 'object' && players[key].id != socket.id) {
+            characters.updatePlayer(players[key])
+        }
+    })
+})
+socket.on('positions_update', (player) => {
+    characters.updatePlayer(player)
+})
+socket.on('player_disconnected', (player_id) => {
+    console.log('Remove player with id', player_id)
+    characters.removePlayerWithId(player_id)
+})
+socket.on('block_click', (block_id) => {
+    console.log('Block click', block_id)
+    cubePresenters.animBlockClick(block_id)
+})
