@@ -9,11 +9,8 @@
   <a href="https://github.com/kefranabg/readme-md-generator/graphs/commit-activity" target="_blank">
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   </a>
-  <a href="https://github.com/kefranabg/readme-md-generator/blob/master/LICENSE" target="_blank">
-    <img alt="License: MIT" src="https://github.com/romainpct/Minecraft-Museum-ThreeJs/master/LICENSE" />
-  </a>
   <a href="https://twitter.com/romainp_design" target="_blank">
-    <img alt="Twitter: romainp_design" src="https://img.shields.io/twitter/follow/matthieuvdl.svg?style=social" />
+    <img alt="Twitter: romainp_design" src="https://img.shields.io/twitter/follow/romainp_design.svg?style=social" />
   </a>
   <a href="https://twitter.com/matthieuvdl" target="_blank">
     <img alt="Twitter: matthieuvdl" src="https://img.shields.io/twitter/follow/matthieuvdl.svg?style=social" />
