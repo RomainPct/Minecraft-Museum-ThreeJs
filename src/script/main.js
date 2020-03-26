@@ -1,7 +1,6 @@
 import '../style/main.styl'
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import io from 'socket.io-client';
 
 import Map from './mapGeneration/Map.js'
 import CubePresenters from './objects/CubePresenters.js'
@@ -9,13 +8,26 @@ import LightManager from './objects/LightManager.js'
 import Floor from './objects/Floor.js'
 import Camera from './objects/Camera.js'
 import CloudGenerator from './objects/CloudGenerator.js'
-import Islands from './objects/Islands.js'
+// import Islands from './objects/Islands.js'
 import Characters from './objects/Characters.js'
 
-const dracoLoader = new DRACOLoader()
-dracoLoader.setDecoderPath('/static/draco/')
-const gltfLoader = new GLTFLoader()
-gltfLoader.setDRACOLoader(dracoLoader)
+const cubesNumber = 6
+const socket = io.connect('http://localhost:8081')
+
+socket.on('init', (players) => {
+    Object.keys(players).forEach(key => {
+        if (typeof players[key] === 'object' && players[key].id != socket.id) {
+            characters.updatePlayer(players[key])
+        }
+    })
+})
+socket.on('positions_update', (player) => {
+    characters.updatePlayer(player)
+})
+socket.on('player_disconnected', (player_id) => {
+    console.log('Remove player with id', player_id)
+    characters.removePlayerWithId(player_id)
+})
 
 const textureLoader = new THREE.TextureLoader()
 const container = document.querySelector('#app')
@@ -44,9 +56,17 @@ const sizes = {
  */
 const welcomeScreen = document.querySelector('#js-welcomeScreen')
 const playForm = welcomeScreen.querySelector('#js-playForm')
+const nameInput = playForm.querySelector('#js-nameInput')
 document.exitPointerLock()
 playForm.addEventListener('submit', (e) => {
     e.preventDefault()
+    socket.emit('new_player', {
+        name: nameInput.value,
+        x: camera.elem.position.x,
+        z: camera.elem.position.z,
+        rotY: camera.elem.rotation.y,
+        rotX: camera.elem.rotation.x
+    })
     renderer.domElement.requestPointerLock = renderer.domElement.requestPointerLock || renderer.domElement.mozRequestPointerLock || renderer.domElement.webkitPointerLockElement
     renderer.domElement.requestPointerLock()
     welcomeScreen.classList.add('hidden')
@@ -67,7 +87,6 @@ document.addEventListener('webkitpointerlockchange', pointerLockChange, false)
 /** 
  * Scene
 */
-const cubesNumber = 140
 const skyColor = 0x2d99fc
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(skyColor)
@@ -79,7 +98,7 @@ const cubePresenters = new CubePresenters(scene, textureLoader, cubesNumber, det
 const clouds = new CloudGenerator(scene, cubesNumber)
 // const islands = new Islands(scene, textureLoader, cubesNumber)
 const lightManager = new LightManager(scene)
-const characters = new Characters(scene, gltfLoader, textureLoader)
+const characters = new Characters(scene, textureLoader)
 const map = new Map(scene, textureLoader, cubesNumber)
 
 /** 
@@ -167,10 +186,24 @@ const animate = () => {
     requestAnimationFrame(animate)
 
     cubePresenters.update()
-    characters.update()
 
+    const oldPos = {
+        x: camera.elem.position.x,
+        z: camera.elem.position.z,
+        rotY: camera.elem.rotation.y,
+        rotX: camera.elem.rotation.x
+    }
     camera.update(userData, sizes, cubesNumber)
     userData.deltaY = 0
+    const newPos = {
+        x: camera.elem.position.x,
+        z: camera.elem.position.z,
+        rotY: camera.elem.rotation.y,
+        rotX: camera.elem.rotation.x
+    }
+    if (oldPos.x != newPos.x || oldPos.y != newPos.y || oldPos.rotY != newPos.rotY || oldPos.rotX != newPos.rotX ) {
+        socket.emit('update_my_position', newPos)
+    }
     renderer.render(scene,camera.elem)
 }
 

@@ -1,8 +1,5 @@
 import * as THREE from 'three'
 import presenterColorSource from '../../../static/blocks/21_top.png'
-import cactusBottomSource from '../../resources/minecraft_textures/block/cactus_bottom.png'
-import cactusSideSource from '../../resources/minecraft_textures/block/cactus_side.png'
-import cactusTopSource from '../../resources/minecraft_textures/block/cactus_top.png'
 
 export default class CubePresenters {
 
@@ -54,14 +51,18 @@ export default class CubePresenters {
     }
 
     generateCubeMaterial(_i, _textureLoader) {
+        // console.log("--------------");
         const sideTexture = _textureLoader.load(`/static/blocks/${_i}_side.png`)
+        // console.log('sideTexture', sideTexture);
         sideTexture.magFilter = THREE.NearestFilter
         sideTexture.minFilter = THREE.NearestFilter
         const topTextureUrl = this.fileExists(`/static/blocks/${_i}_top.png`) ? `/static/blocks/${_i}_top.png` : `/static/blocks/${_i}_side.png`
+        // console.log('topTextureUrl', topTextureUrl);
         const topTexture = _textureLoader.load(topTextureUrl)
         topTexture.magFilter = THREE.NearestFilter
         topTexture.minFilter = THREE.NearestFilter
         const bottomTextureUrl = this.fileExists(`/static/blocks/${_i}_bottom.png`) ? `/static/blocks/${_i}_bottom.png` : `/static/blocks/${_i}_side.png`
+        // console.log('bottomTextureUrl', bottomTextureUrl);
         const bottomTexture = _textureLoader.load(bottomTextureUrl)
         bottomTexture.magFilter = THREE.NearestFilter
         bottomTexture.minFilter = THREE.NearestFilter
@@ -79,12 +80,17 @@ export default class CubePresenters {
 
     fileExists(url) {
         if(url){
+            // fetch(url)
+            //     .then(function(response) {
+            //         console.log(response.status == 200)
+            //         return response.status == 200
+            //     })
             var req = new XMLHttpRequest();
             req.open('GET', url, false);
             req.send();
             return req.status==200;
         } else {
-            return false;
+            return false
         }
     }
 
