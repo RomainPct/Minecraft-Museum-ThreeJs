@@ -1,4 +1,4 @@
 {
     "name": "Piston",
-    "description": "la solution idéal pour expédier les géneurs par les airs, par contre on ne les revois plus jamais, j'espère qu'ils vont bien"
+    "description": "Le piston permet de pousser des blocs lorsqu'il est activé par un courant électrique (torche redstone, interupteur, etc.)"
 }

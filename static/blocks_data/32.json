@@ -1,4 +1,4 @@
 {
     "name": "Gravier",
-    "description": "ce gravier permet de gravire les échelons et de graver son nom"
+    "description": "Bloc que l'on trouve un peu partout dans le monde. Il est soumis à la gravité et peut donc vous tomber dessus si rien ne le soutien. De manière aléatoire il vous donnera en le minant un silex."
 }
