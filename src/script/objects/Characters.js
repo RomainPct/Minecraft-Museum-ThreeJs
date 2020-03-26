@@ -71,16 +71,31 @@ export default class Characters {
                 element.children[0].material = this.characterMaterials[data.skin || 0]
                 this.characters[data.id].add(element.clone())
             })
+            this.characters[data.id].userData = {
+                movementPosition: 0,
+                movementDirection: true
+            }
             this.scene.add(this.characters[data.id])
         }
         this.characters[data.id].position.x = data.x
         this.characters[data.id].position.z = data.z
         this.characters[data.id].rotation.y = data.rotY
         this.characters[data.id].getObjectByName('pivotHead').rotation.x = data.rotX
-        // this.characters[data.id].getObjectByName('pivotleftArm').rotation.x += Math.PI * 0.1
-        // this.characters[data.id].getObjectByName('pivotrightArm').rotation.x -= Math.PI * 0.1
-        this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x += Math.PI * 0.1
-        this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x -= Math.PI * 0.1
+        this.characters[data.id].userData.movementPosition += this.characters[data.id].userData.movementDirection ? 1 : -1
+        if (this.characters[data.id].userData.movementPosition > 10 || this.characters[data.id].userData.movementPosition < -10) {
+            this.characters[data.id].userData.movementDirection = !this.characters[data.id].userData.movementDirection
+        }
+        if(this.characters[data.id].userData.movementDirection) {
+            this.characters[data.id].getObjectByName('pivotleftArm').rotation.x -= Math.PI * 0.03
+            this.characters[data.id].getObjectByName('pivotrightArm').rotation.x += Math.PI * 0.03
+            this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x += Math.PI * 0.03
+            this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x -= Math.PI * 0.03
+        } else {
+            this.characters[data.id].getObjectByName('pivotleftArm').rotation.x += Math.PI * 0.03
+            this.characters[data.id].getObjectByName('pivotrightArm').rotation.x -= Math.PI * 0.03
+            this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x -= Math.PI * 0.03
+            this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x += Math.PI * 0.03
+        }
     }
 
     removePlayerWithId(id) {
