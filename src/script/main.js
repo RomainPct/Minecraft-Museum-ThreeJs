@@ -1,6 +1,6 @@
 import '../style/main.styl'
 import * as THREE from 'three'
-import io from 'socket.io-client';
+import io from 'socket.io-client'
 
 import Map from './mapGeneration/Map.js'
 import CubePresenters from './objects/CubePresenters.js'
@@ -8,10 +8,9 @@ import LightManager from './objects/LightManager.js'
 import Floor from './objects/Floor.js'
 import Camera from './objects/Camera.js'
 import CloudGenerator from './objects/CloudGenerator.js'
-// import Islands from './objects/Islands.js'
 import Characters from './objects/Characters.js'
 
-const cubesNumber = 74
+const cubesNumber = 73
 
 const textureLoader = new THREE.TextureLoader()
 const container = document.querySelector('#app')
