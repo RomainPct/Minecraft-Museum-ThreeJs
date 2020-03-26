@@ -10,7 +10,7 @@ import Camera from './objects/Camera.js'
 import CloudGenerator from './objects/CloudGenerator.js'
 import Characters from './objects/Characters.js'
 
-const cubesNumber = 73
+const cubesNumber = 74
 
 const textureLoader = new THREE.TextureLoader()
 const container = document.querySelector('#app')
