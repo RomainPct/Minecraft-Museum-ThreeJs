@@ -117,7 +117,7 @@ export default class Characters {
             this.characters[_data.id].getObjectByName('pivotrightLeg').rotation.x += Math.PI * 0.05
         }
         setTimeout(() => {
-            if (this.characters[_data.id].userData.lastUpdate > Date.now() - 990) {
+            if (this.characters[_data.id].userData.lastUpdate < Date.now() - 990) {
                 this.characters[_data.id].userData.movementPosition = 0
                 this.characters[_data.id].userData.movementDirection = true
                 this.characters[_data.id].getObjectByName('pivotleftArm').rotation.x = 0
