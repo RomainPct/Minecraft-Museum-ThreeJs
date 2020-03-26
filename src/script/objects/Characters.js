@@ -62,10 +62,20 @@ export default class Characters {
     }
 
     newCharacter(_data) {
+        let userMaterial
+        if (typeof _data.skin == "number") {
+            userMaterial = this.characterMaterials[_data.skin || 0]
+        } else {
+            const customTexture = _textureLoader.load(`https://minotar.net/skin/2f3665cc5e29439bbd14cb6d3a6313a7`)
+            customTexture.flipY = false
+            customTexture.magFilter = THREE.NearestFilter
+            customTexture.minFilter = THREE.NearestFilter
+            userMaterial = new THREE.MeshStandardMaterial({ map: customTexture })
+        }
         this.characters[_data.id] = new THREE.Group()
         this.characters[_data.id].scale.set(1.4,1.4,1.4)
         this.baseCharacter.children.forEach(element => {
-            element.children[0].material = this.characterMaterials[_data.skin || 0]
+            element.children[0].material = userMaterial
             this.characters[_data.id].add(element.clone())
         })
         this.characters[_data.id].userData = {
