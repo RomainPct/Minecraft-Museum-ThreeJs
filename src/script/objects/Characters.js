@@ -1,12 +1,15 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import font from 'three/examples/fonts/helvetiker_regular.typeface.json'
 
 export default class Characters {
 
     constructor(_scene, _textureLoader) {
         this.characters = {}
         this.scene = _scene
+
+        this.textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 })
 
         this.characterMaterials = []
         for (let i = 0; i < 8; i++) {
@@ -59,49 +62,68 @@ export default class Characters {
         )
     }
 
-    updatePlayer(data) {
-        if (this.characters[data.id] === undefined) {
-            this.characters[data.id] = new THREE.Group()
-            this.characters[data.id].scale.set(1.4,1.4,1.4)
-            this.baseCharacter.children.forEach(element => {
-                element.children[0].material = this.characterMaterials[data.skin || 0]
-                this.characters[data.id].add(element.clone())
-            })
-            this.characters[data.id].userData = {
-                movementPosition: 0,
-                movementDirection: true,
-                lastUpdate: Date.now()
-            }
-            this.scene.add(this.characters[data.id])
+    newCharacter(_data) {
+        this.characters[_data.id] = new THREE.Group()
+        this.characters[_data.id].scale.set(1.4,1.4,1.4)
+        this.baseCharacter.children.forEach(element => {
+            element.children[0].material = this.characterMaterials[_data.skin || 0]
+            this.characters[_data.id].add(element.clone())
+        })
+        this.characters[_data.id].userData = {
+            movementPosition: 0,
+            movementDirection: true,
+            lastUpdate: Date.now()
         }
-        this.characters[data.id].position.x = data.x
-        this.characters[data.id].position.z = data.z
-        this.characters[data.id].rotation.y = data.rotY
-        this.characters[data.id].getObjectByName('pivotHead').rotation.x = data.rotX
-        this.characters[data.id].userData.lastUpdate = Date.now()
-        this.characters[data.id].userData.movementPosition += this.characters[data.id].userData.movementDirection ? 1 : -1
-        if (this.characters[data.id].userData.movementPosition > 10 || this.characters[data.id].userData.movementPosition < -10) {
-            this.characters[data.id].userData.movementDirection = !this.characters[data.id].userData.movementDirection
+        const textGeometry = new THREE.TextGeometry(_data.name, {
+            font: new THREE.Font(font),
+            size: 0.1,
+            height: 0.03,
+            curveSegments: 0,
+            bevelEnabled: false
+        })
+        const text = new THREE.Mesh(
+            textGeometry,
+            this.textMaterial
+        )
+        text.rotation.y = Math.PI
+        text.position.y = 2.1
+        text.position.x = new THREE.Box3().setFromObject(text).getSize().x / 2
+        this.characters[_data.id].add(text)
+        this.scene.add(this.characters[_data.id])
+    }
+
+    updatePlayer(_data) {
+        if (this.characters[_data.id] === undefined) {
+            this.newCharacter(_data)
         }
-        if(this.characters[data.id].userData.movementDirection) {
-            this.characters[data.id].getObjectByName('pivotleftArm').rotation.x -= Math.PI * 0.05
-            this.characters[data.id].getObjectByName('pivotrightArm').rotation.x += Math.PI * 0.05
-            this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x += Math.PI * 0.05
-            this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x -= Math.PI * 0.05
+        this.characters[_data.id].position.x = _data.x
+        this.characters[_data.id].position.z = _data.z
+        this.characters[_data.id].rotation.y = _data.rotY
+        this.characters[_data.id].getObjectByName('pivotHead').rotation.x = _data.rotX
+        this.characters[_data.id].userData.lastUpdate = Date.now()
+        this.characters[_data.id].userData.movementPosition += this.characters[_data.id].userData.movementDirection ? 1 : -1
+        if (this.characters[_data.id].userData.movementPosition > 10 || this.characters[_data.id].userData.movementPosition < -10) {
+            this.characters[_data.id].userData.movementDirection = !this.characters[_data.id].userData.movementDirection
+        }
+        if(this.characters[_data.id].userData.movementDirection) {
+            this.characters[_data.id].getObjectByName('pivotleftArm').rotation.x -= Math.PI * 0.05
+            this.characters[_data.id].getObjectByName('pivotrightArm').rotation.x += Math.PI * 0.05
+            this.characters[_data.id].getObjectByName('pivotleftLeg').rotation.x += Math.PI * 0.05
+            this.characters[_data.id].getObjectByName('pivotrightLeg').rotation.x -= Math.PI * 0.05
         } else {
-            this.characters[data.id].getObjectByName('pivotleftArm').rotation.x += Math.PI * 0.05
-            this.characters[data.id].getObjectByName('pivotrightArm').rotation.x -= Math.PI * 0.05
-            this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x -= Math.PI * 0.05
-            this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x += Math.PI * 0.05
+            this.characters[_data.id].getObjectByName('pivotleftArm').rotation.x += Math.PI * 0.05
+            this.characters[_data.id].getObjectByName('pivotrightArm').rotation.x -= Math.PI * 0.05
+            this.characters[_data.id].getObjectByName('pivotleftLeg').rotation.x -= Math.PI * 0.05
+            this.characters[_data.id].getObjectByName('pivotrightLeg').rotation.x += Math.PI * 0.05
         }
         setTimeout(() => {
-            if (this.characters[data.id].userData.lastUpdate > Date.now() - 990) {
-                this.characters[data.id].userData.movementPosition = 0
-                this.characters[data.id].userData.movementDirection = true
-                this.characters[data.id].getObjectByName('pivotleftArm').rotation.x = 0
-                this.characters[data.id].getObjectByName('pivotrightArm').rotation.x = 0
-                this.characters[data.id].getObjectByName('pivotleftLeg').rotation.x = 0
-                this.characters[data.id].getObjectByName('pivotrightLeg').rotation.x = 0
+            if (this.characters[_data.id].userData.lastUpdate > Date.now() - 990) {
+                this.characters[_data.id].userData.movementPosition = 0
+                this.characters[_data.id].userData.movementDirection = true
+                this.characters[_data.id].getObjectByName('pivotleftArm').rotation.x = 0
+                this.characters[_data.id].getObjectByName('pivotrightArm').rotation.x = 0
+                this.characters[_data.id].getObjectByName('pivotleftLeg').rotation.x = 0
+                this.characters[_data.id].getObjectByName('pivotrightLeg').rotation.x = 0
             }
         }, 1000)
     }
