@@ -80,10 +80,11 @@ document.addEventListener('webkitpointerlockchange', pointerLockChange, false)
 /** 
  * Scene
 */
-const skyColor = 0x2d99fc
+const skyColor = 0x9FD0FD
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(skyColor)
-scene.fog = new THREE.FogExp2(0x9FD0FD, 0.03)
+scene.fog = new THREE.FogExp2(skyColor, 0.02)
+// scene.fog = new THREE.Fog(0x9FD0FD, 0, 50)
 const camera = new Camera(scene, sizes)
 
 const floor = new Floor(scene, textureLoader, cubesNumber)

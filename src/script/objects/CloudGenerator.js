@@ -42,6 +42,13 @@ export default class CloudGenerator {
         }
         _scene.add(this.cloudLevel1)
         _scene.add(this.cloudLevel2)
+        const sky = new THREE.Mesh(
+            new THREE.PlaneBufferGeometry(160, _cubesNumber * 10 + 160),
+            new THREE.MeshStandardMaterial({ color: 0x2d99fc })
+        )
+        sky.rotation.x = Math.PI * 0.5
+        sky.position.y = 26
+        _scene.add(sky)
     }
 
     generateCloudGeometries() {
