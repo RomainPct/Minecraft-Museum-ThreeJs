@@ -1,4 +1,4 @@
 {
-    "name": "Bloc de redstone",
-    "description": "description"
+    "name": "Lampe",
+    "description": "Ce bloc, qui est semblable aux blocs de glowstone n'émet de la lumière que lorsqu'il est activé par un circuit de redstone."
 }

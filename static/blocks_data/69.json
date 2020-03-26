@@ -1,4 +1,4 @@
 {
     "name": "Spawner",
-    "description": "description"
+    "description": "Ce bloc se trouve à l'air naturel dans de petites cavernes appelées donjons. De ces blocs jaillissent des monstres, toujours les mêmes. Chaque générateur étant spécialisé sur un type de monstre, ce type de monstre apparait en miniature à l'intérieur de la cage. Pour empêcher la cage de faire apparaitre des montres, il faut l'entourer de lumière (car les monstres ne pop pas à la lumière). Dans ces donjons se trouvent également des coffres contenant des objets rares (voir uniques)."
 }

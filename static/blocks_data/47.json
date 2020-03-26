@@ -1,4 +1,4 @@
 {
     "name": "Piston Colant",
-    "description": "description"
+    "description": "Le piston collant fonctionne de la même façon qu'un piston : il a juste la capacité supplémentaire de coller le bloc qui lui est attaché. Il peut donc pousser, mais aussi tirer ce bloc."
 }

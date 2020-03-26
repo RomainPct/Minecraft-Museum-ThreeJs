@@ -1,4 +1,4 @@
 {
     "name": "Table d'enchantement",
-    "description": "description"
+    "description": "La table d'enchantement permet d'enchanter armures, armes et outils afin de leur donner différent pouvoirs. Une fois enchanté, un outil devient brillant. L'enchantement d'un outil consomme les points d'XP du joueur. Voir la liste des enchantements. Pour augmenter la puissance d'enchantement d'une table d'enchantement, il faut l'entourer de bloc de bibliothèque, à une distance de 2 blocs de la table."
 }
