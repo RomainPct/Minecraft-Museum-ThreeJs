@@ -33,7 +33,6 @@ export default class Characters {
                     const child = gltf.scene.children[0]
                     child.material = this.characterMaterials[0]
                     const pivot = new THREE.Object3D()
-                    // console.log(child)
                     pivot.add(child)
                     pivot.name = `pivot${child.name}`
                     if (child.name == 'leftArm' || child.name == 'rightArm') {

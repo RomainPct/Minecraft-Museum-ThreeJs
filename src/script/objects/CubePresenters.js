@@ -53,15 +53,12 @@ export default class CubePresenters {
                 cube.rotation.y = Math.PI * 8 * t * ( 2 - t )
             }, i * 1000 / 60)
         }
-        console.log(_socket);
-        
         if (_socket != null) {
             _socket.emit('block_click', _i)
         }
     }
 
     openPopupForBlock(_i) {
-        console.log(`Tap on button ${this.presenterGroups[_i].userData.cubeId}`);
         this.presenterGroups[_i].children[1].position.x += 0.1
         setTimeout(() => {
             this.presenterGroups[_i].children[1].position.x -= 0.1
@@ -78,18 +75,14 @@ export default class CubePresenters {
     }
 
     generateCubeMaterial(_i, _textureLoader) {
-        // console.log("--------------");
         const sideTexture = _textureLoader.load(`/static/blocks/${_i}_side.png`)
-        // console.log('sideTexture', sideTexture);
         sideTexture.magFilter = THREE.NearestFilter
         sideTexture.minFilter = THREE.NearestFilter
         const topTextureUrl = this.fileExists(`/static/blocks/${_i}_top.png`) ? `/static/blocks/${_i}_top.png` : `/static/blocks/${_i}_side.png`
-        // console.log('topTextureUrl', topTextureUrl);
         const topTexture = _textureLoader.load(topTextureUrl)
         topTexture.magFilter = THREE.NearestFilter
         topTexture.minFilter = THREE.NearestFilter
         const bottomTextureUrl = this.fileExists(`/static/blocks/${_i}_bottom.png`) ? `/static/blocks/${_i}_bottom.png` : `/static/blocks/${_i}_side.png`
-        // console.log('bottomTextureUrl', bottomTextureUrl);
         const bottomTexture = _textureLoader.load(bottomTextureUrl)
         bottomTexture.magFilter = THREE.NearestFilter
         bottomTexture.minFilter = THREE.NearestFilter

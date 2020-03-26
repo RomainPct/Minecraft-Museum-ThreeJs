@@ -13,6 +13,8 @@ import Characters from './objects/Characters.js'
 
 const cubesNumber = 6
 const socket = io.connect('http://localhost:8081')
+// const socket = io.connect('http://minecraft-museum.herokuapp.com:8080')
+console.log(socket)
 
 socket.on('init', (players) => {
     Object.keys(players).forEach(key => {
@@ -75,7 +77,6 @@ playForm.addEventListener('submit', (e) => {
     })
     renderer.domElement.requestPointerLock = renderer.domElement.requestPointerLock || renderer.domElement.mozRequestPointerLock || renderer.domElement.webkitPointerLockElement
     renderer.domElement.requestPointerLock()
-    console.log(welcomeScreen.classList.contains('hidden'))
     welcomeScreen.classList.add('hidden')
     nameInput.setAttribute('disabled','true')
 })
