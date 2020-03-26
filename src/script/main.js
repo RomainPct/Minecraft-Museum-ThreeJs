@@ -14,6 +14,11 @@ const cubesNumber = 74
 
 const textureLoader = new THREE.TextureLoader()
 const container = document.querySelector('#app')
+const loader = document.querySelector('#js-loader')
+
+window.addEventListener('load', function () {
+    loader.classList.add('hidden')
+})
 
 /**
  * Popup info
