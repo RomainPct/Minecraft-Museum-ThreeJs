@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import floorColorSource from '../../../static/blocks/19_inner.png'
+import floorColorSource from '../../../static/blocks/floor.png'
 // import lowFloorColorSource from '../../../static/blocks/66_side.png'
 
 export default class Floor {

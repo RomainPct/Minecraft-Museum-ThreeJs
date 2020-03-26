@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import presenterColorSource from '../../../static/blocks/21_top.png'
+import presenterColorSource from '../../../static/blocks/presenter.png'
 
 export default class CubePresenters {
 
