@@ -12,8 +12,8 @@ import CloudGenerator from './objects/CloudGenerator.js'
 import Characters from './objects/Characters.js'
 
 const cubesNumber = 6
-const socket = io.connect('http://localhost:8081')
-// const socket = io.connect('http://minecraft-museum.herokuapp.com:8080')
+// const socket = io.connect('http://localhost:8081')
+const socket = io.connect('http://minecraft-museum.herokuapp.com:8080')
 console.log(socket)
 
 socket.on('init', (players) => {
