@@ -58,6 +58,7 @@ playForm.addEventListener('submit', (e) => {
         rotX: camera.elem.rotation.x
     })
     canvasIsFocused = true
+    nameInput.blur()
     renderer.domElement.requestPointerLock = renderer.domElement.requestPointerLock || renderer.domElement.mozRequestPointerLock || renderer.domElement.webkitPointerLockElement
     renderer.domElement.requestPointerLock()
     welcomeScreen.classList.add('hidden')
@@ -171,7 +172,6 @@ window.addEventListener('keydown', (e) => {
     }
 })
 window.addEventListener('keyup', (e) => {
-    if (!canvasIsFocused) { return }
     if (e.code == 'ArrowDown' || e.code == 'ArrowUp' || e.code == 'KeyW' || e.code == 'KeyS') {
         userData.keyMoveY = 0
     } else if (e.code == 'ArrowLeft' || e.code == 'ArrowRight' || e.code == 'KeyA' || e.code == 'KeyD') {
